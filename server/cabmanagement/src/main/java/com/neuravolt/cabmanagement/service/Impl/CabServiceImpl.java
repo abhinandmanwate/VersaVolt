@@ -4,12 +4,14 @@ import com.neuravolt.cabmanagement.model.Cab;
 import com.neuravolt.cabmanagement.model.Driver;
 import com.neuravolt.cabmanagement.repository.CabRepository;
 import com.neuravolt.cabmanagement.service.CabService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CabServiceImpl implements CabService {
+
 
     CabRepository cabRepository;
     public CabServiceImpl(CabRepository cabRepository) {
