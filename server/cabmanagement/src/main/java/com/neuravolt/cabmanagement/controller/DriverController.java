@@ -28,6 +28,7 @@ public class DriverController {
         return  driverService.getAllDriver();
     }
 
+    //update existing Driver details
     @PutMapping
     public String  UpdateDriverDetails(@RequestBody Driver driver){
 

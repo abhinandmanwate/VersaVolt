@@ -13,7 +13,6 @@ public class Driver {
 
     @Id
     private String DriverIdNumber;
-
     private String DriverName;
     private String DriverEmail;
     private String DriverPhoneNumber;
