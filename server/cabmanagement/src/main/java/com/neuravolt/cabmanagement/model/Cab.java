@@ -1,12 +1,15 @@
 package com.neuravolt.cabmanagement.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cabinfo")
 public class Cab {
 
+    @OneToOne
+    private  Driver driver;
 
 
 
@@ -47,4 +50,15 @@ public class Cab {
     public void setCabColour(String cabColour) {
         CabColour = cabColour;
     }
+
+
+    public Driver getDriver() {
+        return driver;
+    }
+    public void setDriver( Driver driver) {
+        this.driver = driver;
+    }
+
+
+
 }

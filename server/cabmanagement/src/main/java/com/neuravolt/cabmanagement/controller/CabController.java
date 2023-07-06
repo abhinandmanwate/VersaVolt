@@ -1,6 +1,8 @@
 package com.neuravolt.cabmanagement.controller;
 import com.neuravolt.cabmanagement.model.Cab;
+import com.neuravolt.cabmanagement.model.Driver;
 import com.neuravolt.cabmanagement.service.CabService;
+import jakarta.persistence.OneToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -8,6 +10,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/cabapi")
 public class CabController {
+
+    @OneToOne(mappedBy = "cab")
+    private Driver driver;
     CabService cabService;
 
     public CabController(CabService cabService) {
@@ -35,4 +40,5 @@ public class CabController {
         cabService.deleteCab(CabRegistrationNumber);
         return "Cab Details deleted successfully!";
     }
+
 }

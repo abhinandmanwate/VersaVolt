@@ -1,14 +1,13 @@
 package com.neuravolt.cabmanagement.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="driverinfo")
 public class Driver {
 
+    @OneToOne
+    private Cab cab;
 
 
     @Id
@@ -60,4 +59,14 @@ public class Driver {
     public void setDriverPhoneNumber(String driverPhoneNumber) {
         DriverPhoneNumber = driverPhoneNumber;
     }
+
+    public Cab getCab() {
+        return cab;
+    }
+
+    public void setCab(Cab cab) {
+        this.cab = cab;}
+
+
+
 }
