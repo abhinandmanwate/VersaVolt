@@ -11,8 +11,7 @@ import java.util.List;
 @RequestMapping("/driverapi")
 public class DriverController {
 
-    @OneToOne
-    private Cab cab;
+
     DriverService driverService;
 
     public DriverController(DriverService driverService){

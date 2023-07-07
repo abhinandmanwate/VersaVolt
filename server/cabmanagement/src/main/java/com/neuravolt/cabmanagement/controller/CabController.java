@@ -11,8 +11,7 @@ import java.util.List;
 @RequestMapping("/cabapi")
 public class CabController {
 
-    @OneToOne(mappedBy = "cab")
-    private Driver driver;
+
     CabService cabService;
 
     public CabController(CabService cabService) {
