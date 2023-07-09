@@ -1,17 +1,21 @@
 package com.neuravolt.cabmanagement.model;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.neuravolt.cabmanagement.repository.DriverRepository;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="driverinfo")
 public class Driver {
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name = "cab_registration_number")
     private Cab cab;
 
 
     @Id
-    private String DriverIdNumber;
+    @Column(name = "driverIdNumber")
+    private String driverIdNumber;
     private String DriverName;
     private String DriverEmail;
     private String DriverPhoneNumber;
@@ -21,7 +25,7 @@ public class Driver {
     }
 
     public Driver(String driverName, String driverIdNumber, String driverEmail, String driverPhoneNumber) {
-        DriverIdNumber = driverIdNumber;
+        this.driverIdNumber = driverIdNumber;
         DriverName = driverName;
         DriverEmail = driverEmail;
         DriverPhoneNumber = driverPhoneNumber;
@@ -30,26 +34,26 @@ public class Driver {
 
 
     public String getDriverIdNumber() {
-        return DriverIdNumber;
+        return driverIdNumber;
     }
 
     public void setDriverIdNumber(String driverIdNumber) {
-        DriverIdNumber = driverIdNumber;
+        this.driverIdNumber = driverIdNumber;
     }
 
     public String getDriverName() {
         return DriverName;
     }
 
-    public void setDriverName(String driverName) {
-        DriverName = driverName;
+    public void setDriverName(String DriverName) {
+        this.DriverName = DriverName;
     }
     public String getDriverEmail() {
         return DriverEmail;
     }
 
-    public void setDriverEmail(String driverEmail) {
-        DriverEmail = driverEmail;
+    public void setDriverEmail(String DriverEmail) {
+        this.DriverEmail = DriverEmail;
     }
 
     public String getDriverPhoneNumber() {
@@ -60,13 +64,14 @@ public class Driver {
         DriverPhoneNumber = driverPhoneNumber;
     }
 
+
+    //Statement 3
+    public void setCab(Cab cab) {
+        this.cab = cab;
+    }
+
     public Cab getCab() {
         return cab;
     }
-
-    public void setCab(Cab cab) {
-        this.cab = cab;}
-
-
 
 }

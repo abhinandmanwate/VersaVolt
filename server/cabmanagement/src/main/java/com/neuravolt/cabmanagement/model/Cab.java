@@ -1,20 +1,20 @@
 package com.neuravolt.cabmanagement.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.neuravolt.cabmanagement.repository.CabRepository;
+import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "cabinfo")
 public class Cab {
 
-    @OneToOne
-    private  Driver driver;
-
-
+    @OneToOne(mappedBy = "cab", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Driver driver;
 
     @Id
-    private String CabRegistrationNumber ;
+    @Column(name = "cabRegistrationNumber")
+    private String cabRegistrationNumber ;
     private String CabModel;
     private String CabColour;
 
@@ -22,17 +22,17 @@ public class Cab {
     }
 
     public Cab(String cabRegistrationNumber, String cabModel, String cabColour) {
-        CabRegistrationNumber = cabRegistrationNumber;
+        this.cabRegistrationNumber = cabRegistrationNumber;
         CabModel = cabModel;
         CabColour = cabColour;
     }
 
     public String getCabRegistrationNumber() {
-        return CabRegistrationNumber;
+        return cabRegistrationNumber;
     }
 
     public void setCabRegistrationNumber(String cabRegistrationNumber) {
-        CabRegistrationNumber = cabRegistrationNumber;
+        this.cabRegistrationNumber= cabRegistrationNumber;
     }
 
     public String getCabModel() {
@@ -51,14 +51,14 @@ public class Cab {
         CabColour = cabColour;
     }
 
+    //Statement 3
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
 
     public Driver getDriver() {
         return driver;
     }
-    public void setDriver( Driver driver) {
-        this.driver = driver;
-    }
-
 
 
 }
