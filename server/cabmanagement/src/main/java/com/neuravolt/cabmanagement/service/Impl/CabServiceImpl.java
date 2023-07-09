@@ -1,34 +1,31 @@
 package com.neuravolt.cabmanagement.service.Impl;
-
 import com.neuravolt.cabmanagement.model.Cab;
 import com.neuravolt.cabmanagement.model.Driver;
 import com.neuravolt.cabmanagement.repository.CabRepository;
+import com.neuravolt.cabmanagement.repository.DriverRepository;
 import com.neuravolt.cabmanagement.service.CabService;
-import com.neuravolt.cabmanagement.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class CabServiceImpl implements CabService {
 
 
-    public static CabRepository cabRepository;
-    public CabServiceImpl(CabRepository cabRepository) {
-        this.cabRepository = cabRepository;
-    }
+    private CabRepository cabRepository;
+    private DriverRepository driverRepository;
 
+    @Autowired
+    public CabServiceImpl(CabRepository cabRepository, DriverRepository driverRepository) {
+        this.cabRepository = cabRepository;
+        this.driverRepository = driverRepository;
+    }
     @Override
     public String createCab(Cab cab) {
 
-       // try{
         cabRepository.save(cab);
         return "Cab Successfully Added";
-      /*  } catch (Exception e) {
-            // Handle specific exceptions or log the error
-            throw new RuntimeException("Failed to create Cab", e);
-        } */
+
     }
 
 
@@ -39,8 +36,8 @@ public class CabServiceImpl implements CabService {
     }
 
     @Override
-    public String deleteCab(String Cab_Registration_Number) {
-        cabRepository.deleteById(Cab_Registration_Number);
+    public String deleteCab(String cabRegistrationNumber) {
+        cabRepository.deleteById(cabRegistrationNumber);
         return "Cab Successfully Deleted";
     }
 
@@ -49,33 +46,58 @@ public class CabServiceImpl implements CabService {
     public List<Cab> getAllCab() {
         return cabRepository.findAll();
     }
-    public void setCab(Cab cab) {
-        }
 
-    @Override
-    public String assignDriverToCab(String CabRegistrationNumber, String DriverIdNumber) {
-        Cab cab = cabRepository.findById(CabRegistrationNumber).orElse(null);
-        Driver driver = DriverService.getByDriverIdNumber(DriverIdNumber);
+    //Statement 3
 
+    public Cab assignDriverToCab(String cabRegistrationNumber, String driverIdNumber) {
+        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
         if (cab != null && driver != null) {
             cab.setDriver(driver);
+            driver.setCab(cab);
             cabRepository.save(cab);
-            return "Driver assigned to cab successfully!";
-        } else {
-            return "Cab or Driver not found.";
+            driverRepository.save(driver);
+            return cab;
         }
+        return null;
     }
 
-    @Override
-    public String unassignDriverFromCab(String CabRegistrationNumber) {
-        Cab cab = cabRepository.findById(CabRegistrationNumber).orElse(null);
+    public Cab updateAssignedDriver(String cabRegistrationNumber, String driverIdNumber) {
+        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+        if (cab != null && driver != null) {
+            cab.getDriver().setCab(null); // Unassign the current driver from the cab
+            cab.setDriver(driver);
+            driver.setCab(cab);
+            cabRepository.save(cab);
+            driverRepository.save(driver);
+            return cab;
+        }
+        return null;
+    }
 
+    public Driver getAssignedDriver(String cabRegistrationNumber) {
+        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
         if (cab != null) {
-            cab.setDriver(null);
-            cabRepository.save(cab);
-            return "Driver unassigned from cab successfully!";
-        } else {
-            return "Cab not found.";
+            Driver driver = cab.getDriver();
+            System.out.println("Cab: " + cabRegistrationNumber + ", Driver: " + driver); // Add this line for debugging
+            return driver;
         }
+        return null;
     }
+
+    public boolean removeAssignedDriver(String cabRegistrationNumber) {
+        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+        if (cab != null) {
+            Driver driver = cab.getDriver();
+            if (driver != null) {
+                driver.setCab(null);
+                driverRepository.delete(driver);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

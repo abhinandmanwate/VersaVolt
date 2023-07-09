@@ -1,9 +1,6 @@
 package com.neuravolt.cabmanagement.controller;
-import com.neuravolt.cabmanagement.model.Cab;
 import com.neuravolt.cabmanagement.model.Driver;
 import com.neuravolt.cabmanagement.service.DriverService;
-import jakarta.persistence.OneToOne;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -45,11 +42,4 @@ public class DriverController {
         return " Driver Details deleted successfully!";
     }
 
- /*   public Cab getCab() {
-        return cab;
-    }
-
-    public void setCab(Cab cab) {
-        this.cab = cab;
-    }*/
 }
