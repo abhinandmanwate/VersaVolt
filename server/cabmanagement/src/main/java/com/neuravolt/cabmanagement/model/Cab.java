@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "cabinfo")
 public class Cab {
 
+    //OneToOne Mapping with cascadetype all
     @OneToOne(mappedBy = "cab", cascade = CascadeType.ALL)
     @JsonIgnore
     private Driver driver;

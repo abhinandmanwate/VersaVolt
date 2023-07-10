@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class CabServiceImpl implements CabService {
 
-
     private CabRepository cabRepository;
     private DriverRepository driverRepository;
 
@@ -20,84 +19,124 @@ public class CabServiceImpl implements CabService {
         this.cabRepository = cabRepository;
         this.driverRepository = driverRepository;
     }
+
     @Override
     public String createCab(Cab cab) {
+        try {
+            // Check if cabRegistrationNumber already exists
+            if (cabRepository.existsByCabRegistrationNumber(cab.getCabRegistrationNumber())) {
+                return "Cab Already Added";
+            }
 
-        cabRepository.save(cab);
-        return "Cab Successfully Added";
-
+            cabRepository.save(cab);
+            return "Cab successfully added";
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to add cab: " + e.getMessage());
+        }
     }
-
 
     @Override
     public String updateCab(Cab cab) {
-        cabRepository.save(cab);
-        return "Cab Successfully Updated";
+        try {
+            // Check if cabRegistrationNumber exists
+            if (!cabRepository.existsByCabRegistrationNumber(cab.getCabRegistrationNumber())) {
+                return "Cab does not exist";
+            }
+            cabRepository.save(cab);
+            return "Cab successfully updated";
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update cab: " + e.getMessage());
+        }
     }
 
     @Override
     public String deleteCab(String cabRegistrationNumber) {
-        cabRepository.deleteById(cabRegistrationNumber);
-        return "Cab Successfully Deleted";
+        try {
+            // Check if cab with given registration number exists
+            if (!cabRepository.existsByCabRegistrationNumber(cabRegistrationNumber)) {
+                return "Cab does not exist";
+            }
+            cabRepository.deleteById(cabRegistrationNumber);
+            return "Cab successfully deleted";
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete cab: " + e.getMessage());
+        }
     }
-
 
     @Override
     public List<Cab> getAllCab() {
-        return cabRepository.findAll();
+        try {
+            return cabRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve cab details: " + e.getMessage());
+        }
     }
 
-    //Statement 3
+    // Statement 3
 
     public Cab assignDriverToCab(String cabRegistrationNumber, String driverIdNumber) {
-        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
-        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
-        if (cab != null && driver != null) {
-            cab.setDriver(driver);
-            driver.setCab(cab);
-            cabRepository.save(cab);
-            driverRepository.save(driver);
-            return cab;
+        try {
+            Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+            Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+            if (cab != null && driver != null) {
+                cab.setDriver(driver);
+                driver.setCab(cab);
+                cabRepository.save(cab);
+                driverRepository.save(driver);
+                return cab;
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to assign driver to cab: " + e.getMessage());
         }
-        return null;
     }
 
     public Cab updateAssignedDriver(String cabRegistrationNumber, String driverIdNumber) {
-        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
-        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
-        if (cab != null && driver != null) {
-            cab.getDriver().setCab(null); // Unassign the current driver from the cab
-            cab.setDriver(driver);
-            driver.setCab(cab);
-            cabRepository.save(cab);
-            driverRepository.save(driver);
-            return cab;
+        try {
+            Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+            Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+            if (cab != null && driver != null) {
+                cab.getDriver().setCab(null); // Unassign the current driver from the cab
+                cab.setDriver(driver);
+                driver.setCab(cab);
+                cabRepository.save(cab);
+                driverRepository.save(driver);
+                return cab;
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update assigned driver: " + e.getMessage());
         }
-        return null;
     }
 
     public Driver getAssignedDriver(String cabRegistrationNumber) {
-        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
-        if (cab != null) {
-            Driver driver = cab.getDriver();
-            System.out.println("Cab: " + cabRegistrationNumber + ", Driver: " + driver); // Add this line for debugging
-            return driver;
+        try {
+            Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+            if (cab != null) {
+                Driver driver = cab.getDriver();
+                System.out.println("Cab: " + cabRegistrationNumber + ", Driver: " + driver);
+                return driver;
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get assigned driver: " + e.getMessage());
         }
-        return null;
     }
 
     public boolean removeAssignedDriver(String cabRegistrationNumber) {
-        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
-        if (cab != null) {
-            Driver driver = cab.getDriver();
-            if (driver != null) {
-                driver.setCab(null);
-                driverRepository.delete(driver);
-                return true;
+        try {
+            Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+            if (cab != null) {
+                Driver driver = cab.getDriver();
+                if (driver != null) {
+                    driver.setCab(null);
+                    driverRepository.delete(driver);
+                    return true;
+                }
             }
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to remove assigned driver: " + e.getMessage());
         }
-        return false;
     }
-
-
 }
