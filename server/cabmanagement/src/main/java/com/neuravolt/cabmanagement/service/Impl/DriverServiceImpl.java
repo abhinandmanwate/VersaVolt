@@ -5,7 +5,6 @@ import com.neuravolt.cabmanagement.repository.CabRepository;
 import com.neuravolt.cabmanagement.repository.DriverRepository;
 import com.neuravolt.cabmanagement.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,106 +21,76 @@ public class DriverServiceImpl implements DriverService {
         this.driverRepository = driverRepository;
     }
 
+
     @Override
     public String createDriver(Driver driver) {
-        try {
-            driverRepository.save(driver);
-            return "Driver Added Successfully";
-        } catch (DataIntegrityViolationException ex) {
-            throw new IllegalArgumentException("Invalid driver data");
-        } catch (Exception ex) {
-            throw new RuntimeException("Failed to add driver");
-        }
+
+        driverRepository.save(driver);
+        return "Driver Added Successfully";
     }
 
     @Override
     public String updateDriver(Driver driver) {
-        try {
-            driverRepository.save(driver);
-            return "Driver Updated Successfully";
-        } catch (DataIntegrityViolationException ex) {
-            throw new IllegalArgumentException("Invalid driver data");
-        } catch (Exception ex) {
-            throw new RuntimeException("Failed to update driver");
-        }
+
+        driverRepository.save(driver);
+        return "Driver Updated Successfully";
     }
 
     @Override
     public String deleteDriver(String driverIdNumber) {
-        try {
-            driverRepository.deleteById(driverIdNumber);
-            return "Driver Successfully Deleted";
-        } catch (Exception ex) {
-            throw new RuntimeException("Failed to delete driver");
-        }
+
+        driverRepository.deleteById(driverIdNumber);
+        return  "Driver Successfully Deleted";
     }
+
 
     @Override
     public List<Driver> getAllDriver() {
-        try {
-            return driverRepository.findAll();
-        } catch (Exception ex) {
-            throw new RuntimeException("Failed to get driver details");
-        }
+
+        return  driverRepository.findAll();
+
     }
 
+    //Statement 3
+
     public Driver assignCabToDriver(String driverIdNumber, String cabRegistrationNumber) {
-        try {
-            Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
-            Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
-            if (driver != null && cab != null) {
-                driver.setCab(cab);
-                return driverRepository.save(driver);
-            }
-            return null;
-        } catch (Exception ex) {
-            throw new RuntimeException("Error assigning cab to driver");
+        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+        if (driver != null && cab != null) {
+            driver.setCab(cab);
+            return driverRepository.save(driver);
         }
+        return null;
     }
 
     public Driver updateAssignedCab(String driverIdNumber, String cabRegistrationNumber) {
-        try {
-            Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
-            Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
-            if (driver != null && cab != null) {
-                driver.setCab(cab);
-                return driverRepository.save(driver);
-            }
-            return null;
-        } catch (Exception ex) {
-            throw new RuntimeException("Error updating assigned cab");
+        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+        Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
+        if (driver != null && cab != null) {
+            driver.setCab(cab);
+            return driverRepository.save(driver);
         }
+        return null;
     }
 
     public Cab getAssignedCab(String driverIdNumber) {
-        try {
-            Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
-            if (driver != null) {
-                Cab cab = driver.getCab();
-                System.out.println("Driver: " + driverIdNumber + ", Cab: " + cab);
-                return cab;
-            }
-            return null;
-        } catch (Exception ex) {
-            throw new RuntimeException("Error getting assigned cab");
+        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+        if (driver != null) {
+            Cab cab = driver.getCab();
+            System.out.println("Driver: " + driverIdNumber + ", Cab: " + cab); // Add this line for debugging
+            return cab;
         }
+        return null;
     }
 
     public boolean removeAssignedCab(String driverIdNumber) {
-        try {
-            Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
-            if (driver != null) {
-                driver.setCab(null);
-                driverRepository.save(driver);
-                return true;
-            }
-            return false;
-        } catch (Exception ex) {
-            throw new RuntimeException("Error removing assigned cab");
+        Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
+        if (driver != null) {
+            driver.setCab(null);
+            driverRepository.save(driver);
+            return true;
         }
+        return false;
     }
 
 }
-// exception handling for various scenarios. If there is a `DataIntegrityViolationException`, it will be caught and
-// an `IllegalArgumentException` will be thrown with a corresponding error message.
-// If there is any other exception, a generic `RuntimeException` will be thrown with an appropriate error message.
