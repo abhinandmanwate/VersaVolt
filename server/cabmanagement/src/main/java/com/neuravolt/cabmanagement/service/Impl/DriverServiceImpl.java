@@ -6,8 +6,8 @@ import com.neuravolt.cabmanagement.repository.DriverRepository;
 import com.neuravolt.cabmanagement.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -21,6 +21,7 @@ public class DriverServiceImpl implements DriverService {
         this.driverRepository = driverRepository;
     }
 
+    //Create a new driver
     @Override
     public String createDriver(Driver driver) {
         try {
@@ -36,6 +37,7 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    //Update existing driver
     @Override
     public String updateDriver(Driver driver) {
         try {
@@ -50,6 +52,7 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    //Delete existing cab
     @Override
     public String deleteDriver(String driverIdNumber) {
         try {
@@ -64,6 +67,7 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    //Get all cabs
     @Override
     public List<Driver> getAllDriver() {
         try {
@@ -76,6 +80,7 @@ public class DriverServiceImpl implements DriverService {
 
     // Statement 3
 
+    //Assign drivers cab
     public Driver assignCabToDriver(String driverIdNumber, String cabRegistrationNumber) {
         try {
             Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
@@ -91,6 +96,7 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    //Update drivers cab
     public Driver updateAssignedCab(String driverIdNumber, String cabRegistrationNumber) {
         try {
             Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
@@ -106,6 +112,7 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    //Get drivers cab
     public Cab getAssignedCab(String driverIdNumber) {
         try {
             Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);
@@ -121,6 +128,7 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    //Remove drivers cab
     public boolean removeAssignedCab(String driverIdNumber) {
         try {
             Driver driver = driverRepository.findByDriverIdNumber(driverIdNumber);

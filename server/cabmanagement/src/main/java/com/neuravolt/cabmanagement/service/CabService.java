@@ -6,11 +6,8 @@ import java.util.List;
 public interface CabService {
 
     public String createCab(Cab cab);
-
     public String updateCab(Cab cab);
-
     public String deleteCab(String cabRegistrationNumber);
-
     public List<Cab> getAllCab();
 
     //Statement 3

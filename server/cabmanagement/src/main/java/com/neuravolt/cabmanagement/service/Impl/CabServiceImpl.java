@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+
 @Service
 public class CabServiceImpl implements CabService {
 
@@ -20,6 +21,8 @@ public class CabServiceImpl implements CabService {
         this.driverRepository = driverRepository;
     }
 
+
+    //Create a new cab
     @Override
     public String createCab(Cab cab) {
         try {
@@ -35,6 +38,7 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+    //Update existing cab
     @Override
     public String updateCab(Cab cab) {
         try {
@@ -49,6 +53,7 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+    //Delete existing cab
     @Override
     public String deleteCab(String cabRegistrationNumber) {
         try {
@@ -63,6 +68,7 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+    //Get All cabs
     @Override
     public List<Cab> getAllCab() {
         try {
@@ -74,6 +80,7 @@ public class CabServiceImpl implements CabService {
 
     // Statement 3
 
+    //Assign cabs driver
     public Cab assignDriverToCab(String cabRegistrationNumber, String driverIdNumber) {
         try {
             Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
@@ -91,6 +98,7 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+    //Update cabs driver
     public Cab updateAssignedDriver(String cabRegistrationNumber, String driverIdNumber) {
         try {
             Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
@@ -109,6 +117,7 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+    //Get cabs driver
     public Driver getAssignedDriver(String cabRegistrationNumber) {
         try {
             Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
@@ -123,6 +132,7 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+    //Remove cabs driver
     public boolean removeAssignedDriver(String cabRegistrationNumber) {
         try {
             Cab cab = cabRepository.findByCabRegistrationNumber(cabRegistrationNumber);
