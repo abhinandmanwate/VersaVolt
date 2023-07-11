@@ -3,22 +3,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.neuravolt.cabmanagement.repository.CabRepository;
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "cabinfo")
 public class Cab {
 
-    //OneToOne Mapping with cascadetype all
+    //OneToOne Mapping with cascade type all
     @OneToOne(mappedBy = "cab", cascade = CascadeType.ALL)
     @JsonIgnore
     private Driver driver;
 
-    @Id
-    @Column(name = "cabRegistrationNumber")
+    @Id //setting column as primary key
+    @Column(name = "cabRegistrationNumber")//custom column name
     private String cabRegistrationNumber ;
     private String CabModel;
     private String CabColour;
 
+    //constructors
     public Cab() {
     }
 
@@ -28,6 +28,7 @@ public class Cab {
         CabColour = cabColour;
     }
 
+    //All CRUD operation getter and setter for values
     public String getCabRegistrationNumber() {
         return cabRegistrationNumber;
     }

@@ -16,7 +16,7 @@ public class CabController {
         this.cabService = cabService;
     }
 
-    @PostMapping
+    @PostMapping// create new cab in database
     public String createCabDetails(@RequestBody Cab cab) {
         try {
             cabService.createCab(cab);
@@ -26,7 +26,7 @@ public class CabController {
         }
     }
 
-    @GetMapping
+    @GetMapping //get all cabs list
     public List<Cab> getCabDetails() {
         try {
             return cabService.getAllCab();
@@ -36,7 +36,7 @@ public class CabController {
         }
     }
 
-    @PutMapping
+    @PutMapping //Update existing cab details
     public String updateCabDetails(@RequestBody Cab cab) {
         try {
             cabService.updateCab(cab);
@@ -46,7 +46,7 @@ public class CabController {
         }
     }
 
-    @DeleteMapping("{cabRegistrationNumber}")
+    @DeleteMapping("{cabRegistrationNumber}") //Delete cab with given ID
     public String deleteCabDetails(@PathVariable("cabRegistrationNumber") String cabRegistrationNumber) {
         try {
             cabService.deleteCab(cabRegistrationNumber);
@@ -57,11 +57,13 @@ public class CabController {
     }
 
     // Statement 3 code
+
+    //Assign Driver to cab
     @PostMapping("/{cabRegistrationNumber}/driver/{driverIdNumber}")
     public ResponseEntity<String> assignDriverToCab(
             @PathVariable("cabRegistrationNumber") String cabRegistrationNumber,
             @PathVariable("driverIdNumber") String driverIdNumber) {
-        try {
+        try {//catching exception
             Cab cab = cabService.assignDriverToCab(cabRegistrationNumber, driverIdNumber);
             if (cab != null) {
                 return ResponseEntity.ok("Driver assigned to cab successfully");
@@ -69,10 +71,12 @@ public class CabController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
+            //Handling exception
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error assigning driver to cab: " + e.getMessage());
         }
     }
 
+    //Update Assigned Driver to cab
     @PutMapping("/{cabRegistrationNumber}/driver/{driverIdNumber}")
     public ResponseEntity<String> updateAssignedDriver(
             @PathVariable("cabRegistrationNumber") String cabRegistrationNumber,
@@ -89,6 +93,7 @@ public class CabController {
         }
     }
 
+    //Get Assigned Driver to cab
     @GetMapping("/{cabRegistrationNumber}/driver")
     public ResponseEntity<Driver> getAssignedDriver(
             @PathVariable("cabRegistrationNumber") String cabRegistrationNumber) {
@@ -104,6 +109,7 @@ public class CabController {
         }
     }
 
+    //Delete given cab with requested cabregistrationnumber
     @DeleteMapping("/{cabRegistrationNumber}/driver")
     public ResponseEntity<String> removeAssignedDriver(
             @PathVariable("cabRegistrationNumber") String cabRegistrationNumber) {
