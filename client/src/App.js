@@ -1,11 +1,20 @@
-import './App.css';
-import DTable from "./components/driverInfo/Dtable"
+import './css/DriverCRUD.css'
+
+
+//                                            Driver 
+import DriverCRUD from "./components/mainComp/DriverCRUD"
+
+
+//                                            Cab
+
+
+//                                          Cab & Diver 
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hi</h1>
-      <DTable/>
+    <div className="App">      
+      <DriverCRUD/>
     </div>
   );
 }
