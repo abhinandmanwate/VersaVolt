@@ -33,7 +33,7 @@ public class CabServiceImpl implements CabService {
         try {
             // Check if cabRegistrationNumber already exists
             if (cabRepository.existsByCabRegistrationNumber(cab.getCabRegistrationNumber())) {
-                return "Cab Already Added";
+                return "Cab already Added";
             }
 
             cabRepository.save(cab);

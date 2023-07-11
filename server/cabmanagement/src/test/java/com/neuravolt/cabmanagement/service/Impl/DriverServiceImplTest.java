@@ -1,6 +1,8 @@
 package com.neuravolt.cabmanagement.service.Impl;
+
 import com.neuravolt.cabmanagement.model.Cab;
 import com.neuravolt.cabmanagement.model.Driver;
+import com.neuravolt.cabmanagement.repository.CabRepository;
 import com.neuravolt.cabmanagement.repository.DriverRepository;
 import com.neuravolt.cabmanagement.service.DriverService;
 import org.junit.jupiter.api.AfterEach;
@@ -12,24 +14,30 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.Collections;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 class DriverServiceImplTest {
+
     @Mock
     private DriverRepository driverRepository;
+    @Mock
+    private CabRepository cabRepository;
+
     private DriverService driverService;
-    AutoCloseable autoCloseable;
-    Driver driver;
+    private AutoCloseable autoCloseable;
+    private Driver driver;
 
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        driverService = new DriverServiceImpl(driverRepository);
-        driver = new Driver("123456789","John Doe",
-                "johndoe@example.com","1234567890");
+        driverService = new DriverServiceImpl(cabRepository, driverRepository);
+        driver = new Driver("123456789", "John Doe",
+                "johndoe@example.com", "1234567890");
     }
 
     @AfterEach
@@ -37,58 +45,197 @@ class DriverServiceImplTest {
         autoCloseable.close();
     }
 
+    //TestCases
     @Test
-    void TestCreateDriver() {
-        mock(Driver.class);
-        mock(DriverRepository.class);
+    void testCreateDriver_Success() {
+        when(driverRepository.existsById(driver.getDriverIdNumber())).thenReturn(false);
         when(driverRepository.save(driver)).thenReturn(driver);
-        assertThat(driverService.createDriver(driver)).isEqualTo("Driver successfully added");
+
+        String result = driverService.createDriver(driver);
+
+        assertThat(result).isEqualTo("Driver successfully added");
     }
 
     @Test
-    void TestUpdateDriver() {
-        mock(Driver.class);
-        mock(DriverRepository.class);
+    void testCreateDriver_DuplicateDriver() {
+        when(driverRepository.existsById(driver.getDriverIdNumber())).thenReturn(true);
+
+        String result = driverService.createDriver(driver);
+
+        assertThat(result).isEqualTo("Driver Already Added");
+    }
+
+    @Test
+    void testUpdateDriver_Success() {
+        when(driverRepository.existsById(driver.getDriverIdNumber())).thenReturn(true);
         when(driverRepository.save(driver)).thenReturn(driver);
-        assertThat(driverService.updateDriver(driver)).isEqualTo("Driver does not exist");
+
+        String result = driverService.updateDriver(driver);
+
+        assertThat(result).isEqualTo("Driver successfully updated");
     }
 
     @Test
-    void TestGetAllDriver() {
-        mock(Driver.class);
-        mock(DriverRepository.class);
+    void testUpdateDriver_DriverNotFound() {
+        when(driverRepository.existsById(driver.getDriverIdNumber())).thenReturn(false);
 
-        when(driverRepository.findAll()).thenReturn(
-                new ArrayList<Driver>(Collections.singletonList(driver))
-        );
-        assertThat(driverService.getAllDriver().get(0).getDriverIdNumber())
-                .isEqualTo(driver.getDriverIdNumber() );
+        String result = driverService.updateDriver(driver);
 
+        assertThat(result).isEqualTo("Driver does not exist");
     }
 
     @Test
-    void TestDeleteDriver() {
-        mock(Cab.class);
-        mock(DriverRepository.class, Mockito.CALLS_REAL_METHODS);
-        doAnswer(Answers.CALLS_REAL_METHODS).when(
-                driverRepository).deleteById(any());
-        assertThat(driverService.deleteDriver("BCC123")).isEqualTo("Driver does not exist");
-        //Validation code check
+    void testGetAllDriver() {
+        List<Driver> expectedDrivers = Collections.singletonList(driver);
+        when(driverRepository.findAll()).thenReturn(expectedDrivers);
+
+        List<Driver> actualDrivers = driverService.getAllDriver();
+
+        assertThat(actualDrivers).isEqualTo(expectedDrivers);
     }
 
     @Test
-    void assignCabToDriver() {
+    void testDeleteDriver_Success() {
+        when(driverRepository.existsById(driver.getDriverIdNumber())).thenReturn(true);
+        doAnswer(Answers.CALLS_REAL_METHODS).when(driverRepository).deleteById(any());
+
+        String result = driverService.deleteDriver(driver.getDriverIdNumber());
+
+        assertThat(result).isEqualTo("Driver Successfully Deleted");
     }
 
     @Test
-    void updateAssignedCab() {
+    void testDeleteDriver_DriverNotFound() {
+        when(driverRepository.existsById(driver.getDriverIdNumber())).thenReturn(false);
+
+        String result = driverService.deleteDriver(driver.getDriverIdNumber());
+
+        assertThat(result).isEqualTo("Driver does not exist");
+    }
+
+
+
+    @Test
+    void testAssignCabToDriver_DriverNotFound() {
+        String driverIdNumber = "123456789";
+        String cabRegistrationNumber = "ABC123";
+
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(null);
+        Driver assignedDriver = driverService.assignCabToDriver(driverIdNumber, cabRegistrationNumber);
+        assertThat(assignedDriver).isNull();
     }
 
     @Test
-    void getAssignedCab() {
+    void testAssignCabToDriver_CabNotFound() {
+        String driverIdNumber = "123456789";
+        String cabRegistrationNumber = "ABC123";
+        Driver driver = new Driver(driverIdNumber, "John Doe",
+                "johndoe@example.com", "1234567890");
+
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+
+        Driver assignedDriver = driverService.assignCabToDriver(driverIdNumber, cabRegistrationNumber);
+
+        assertThat(assignedDriver).isNull();
+    }
+
+
+    @Test
+    void testUpdateAssignedCab_Success() {
+        String driverIdNumber = "123456789";
+        String cabRegistrationNumber = "ABC123";
+        Driver driver = new Driver(driverIdNumber, "John Doe",
+                "johndoe@example.com", "1234567890");
+        Cab cab = new Cab(cabRegistrationNumber, "Sedan", "Black");
+
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(any(Driver.class))).thenAnswer(invocation -> invocation.getArgument(0)); // Save and return the driver argument
+        when(cabRepository.findByCabRegistrationNumber(cabRegistrationNumber)).thenReturn(cab);
+
+        Driver updatedDriver = driverService.updateAssignedCab(driverIdNumber, cabRegistrationNumber);
+
+        assertThat(updatedDriver).isEqualTo(driver);
+        assertThat(updatedDriver.getCab()).isEqualTo(cab);
     }
 
     @Test
-    void removeAssignedCab() {
+    void testUpdateAssignedCab_DriverNotFound() {
+        String driverIdNumber = "123456789";
+        String cabRegistrationNumber = "ABC123";
+
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(null);
+
+        Driver updatedDriver = driverService.updateAssignedCab(driverIdNumber, cabRegistrationNumber);
+
+        assertThat(updatedDriver).isNull();
+    }
+
+    @Test
+    void testUpdateAssignedCab_CabNotFound() {
+        String driverIdNumber = "123456789";
+        String cabRegistrationNumber = "ABC123";
+        Driver driver = new Driver(driverIdNumber, "John Doe",
+                "johndoe@example.com", "1234567890");
+
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+
+        Driver updatedDriver = driverService.updateAssignedCab(driverIdNumber, cabRegistrationNumber);
+
+        assertThat(updatedDriver).isNull();
+    }
+
+    @Test
+    void testGetAssignedCab_Success() {
+        String driverIdNumber = "123456789";
+        String cabRegistrationNumber = "ABC123";
+        Driver driver = new Driver(driverIdNumber, "John Doe",
+                "johndoe@example.com", "1234567890");
+        Cab cab = new Cab(cabRegistrationNumber, "Sedan", "Black");
+        driver.setCab(cab);
+
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        Cab assignedCab = driverService.getAssignedCab(driverIdNumber);
+        assertThat(assignedCab).isEqualTo(cab);
+    }
+
+    @Test
+    void testGetAssignedCab_DriverNotFound() {
+        String driverIdNumber = "123456789";
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(null);
+        Cab assignedCab = driverService.getAssignedCab(driverIdNumber);
+        assertThat(assignedCab).isNull();
+    }
+
+    @Test
+    void testRemoveAssignedCab_Success() {
+        String driverIdNumber = "123456789";
+        Driver driver = new Driver(driverIdNumber, "John Doe",
+                "johndoe@example.com", "1234567890");
+        driver.setCab(new Cab("ABC123", "Sedan", "Black"));
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(driver);
+        when(driverRepository.save(driver)).thenReturn(driver);
+        boolean removed = driverService.removeAssignedCab(driverIdNumber);
+        assertThat(removed).isTrue();
+        assertThat(driver.getCab()).isNull();
+    }
+
+    @Test
+    void testRemoveAssignedCab_DriverNotFound() {
+        String driverIdNumber = "123456789";
+        when(driverRepository.findByDriverIdNumber(driverIdNumber)).thenReturn(null);
+        boolean removed = driverService.removeAssignedCab(driverIdNumber);
+        assertThat(removed).isFalse();
     }
 }
