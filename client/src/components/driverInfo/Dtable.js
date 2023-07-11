@@ -3,7 +3,10 @@ import '../../css/Dtable.css'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function Dtable() {
+const Dtable = ({rows, deleteRow, editRow}) => {
+
+
+    
   return (
     <div className='table-wrapper'>
       <table className='table'>
@@ -17,41 +20,31 @@ function Dtable() {
                 </tr>
             </thead>
             <tbody>
-            {/* 1st row */}
-                <tr>
-                    <td>9859</td>
-                    <td>ABC</td>
-                    <td>abc@gmail</td>
-                    <td>1234567890</td>
-                    <td className='actions'>
-                        <span><EditIcon/></span>
-                        <span><DeleteIcon/></span>
-                    </td>
-                </tr>
+                {
+                    rows.map((row, idx) => {
+                        return(
+                            <tr key={idx}>
+                                <td>{row.id}</td>
+                                <td>{row.name}</td>
+                                <td className='expand'>{row.email}</td>
+                                <td>{row.mobile}</td>
+                                <td >
+                                    <span className='actions'>
+                                    <EditIcon className='edit-btn'
+                                        onClick={() => editRow(idx)}
+                                    />
+                                    <DeleteIcon 
+                                        className='delete-btn' 
+                                        onClick={() => deleteRow(idx)}
 
-            {/* 2nd row */}
-                <tr>
-                    <td>1245</td>
-                    <td>John Doe</td>
-                    <td>johndoe@example.com</td>
-                    <td>9876543210</td>
-                    <td className='actions'>
-                        <span><EditIcon/></span>
-                        <span><DeleteIcon/></span>
-                    </td>
-                </tr>
-            
-            {/* 3rd row */}
-                <tr>
-                    <td>7854</td>
-                    <td>Jane Smith</td>
-                    <td>janesmith@example.com</td>
-                    <td>8765432109</td>
-                    <td className='actions'>
-                        <span><EditIcon/></span>
-                        <span><DeleteIcon/></span>
-                    </td>
-                </tr>
+                                    />
+                                    </span>
+                                </td>
+                            </tr>
+                        );
+                    })
+                }
+
             </tbody>
         </table>
     </div>
