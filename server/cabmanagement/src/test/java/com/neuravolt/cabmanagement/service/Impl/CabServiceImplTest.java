@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -59,6 +63,7 @@ class CabServiceImplTest {
 
         when(cabRepository.save(cab)).thenReturn(cab);
         assertThat(cabService.deleteCab(cab.getCabRegistrationNumber())).isEqualTo("Cab does not exist");
+
     }
 
     @Test
@@ -66,8 +71,12 @@ class CabServiceImplTest {
         mock(Cab.class);
         mock(CabRepository.class);
 
-        when(cabRepository.save(cab)).thenReturn(cab);
-        assertThat(cabService.createCab(cab)).isEqualTo("Cab successfully added");
+        when(cabRepository.findAll()).thenReturn(
+                new ArrayList<Cab>(Collections.singletonList(cab))
+        );
+        assertThat(cabService.getAllCab().get(0).getCabRegistrationNumber())
+                .isEqualTo(cab.getCabRegistrationNumber());
+
     }
 
     @Test

@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -62,6 +65,15 @@ class DriverServiceImplTest {
 
     @Test
     void TestGetAllDriver() {
+        mock(Driver.class);
+        mock(DriverRepository.class);
+
+        when(driverRepository.findAll()).thenReturn(
+                new ArrayList<Driver>(Collections.singletonList(driver))
+        );
+        assertThat(driverService.getAllDriver().get(0).getDriverIdNumber())
+                .isEqualTo(driver.getDriverIdNumber());
+
     }
 
     @Test
