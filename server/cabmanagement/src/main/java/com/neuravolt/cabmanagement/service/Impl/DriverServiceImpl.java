@@ -20,6 +20,9 @@ public class DriverServiceImpl implements DriverService {
         this.cabRepository = cabRepository;
         this.driverRepository = driverRepository;
     }
+    public DriverServiceImpl(DriverRepository driverRepository){
+        this.driverRepository = driverRepository;
+    }
 
     //Create a new driver
     @Override
@@ -31,7 +34,7 @@ public class DriverServiceImpl implements DriverService {
                 return "Driver Already Added";
             }
             driverRepository.save(driver);
-            return "Driver Added Successfully";
+            return "Driver successfully added";
         } catch (Exception e) {
             return "Error adding driver: " + e.getMessage();
         }
@@ -46,7 +49,7 @@ public class DriverServiceImpl implements DriverService {
                 return "Driver does not exist";
             }
             driverRepository.save(driver);
-            return "Driver Updated Successfully";
+            return "Driver successfully updated";
         } catch (Exception e) {
             return "Error updating driver: " + e.getMessage();
         }

@@ -20,6 +20,11 @@ public class CabServiceImpl implements CabService {
         this.cabRepository = cabRepository;
         this.driverRepository = driverRepository;
     }
+    public CabServiceImpl(CabRepository cabRepository){
+        this.cabRepository = cabRepository;
+
+    }
+
 
 
     //Create a new cab
