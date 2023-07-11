@@ -7,20 +7,20 @@ import jakarta.persistence.*;
 @Table(name="driverinfo")
 public class Driver {
 
+    //OneToOne mapping with cascade type all
     @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinColumn(name = "cab_registration_number")
+    @JoinColumn(name = "cab_registration_number")//joining given column
     private Cab cab;
 
-
-    @Id
-    @Column(name = "driverIdNumber")
+    @Id//setting column as primary key
+    @Column(name = "driverIdNumber")//custom column name
     private String driverIdNumber;
     private String DriverName;
     private String DriverEmail;
     private String DriverPhoneNumber;
 
-
+    //constructors
     public Driver() {
     }
 
@@ -31,8 +31,7 @@ public class Driver {
         DriverPhoneNumber = driverPhoneNumber;
     }
 
-
-
+    //All CRUD operation getter and setter for values
     public String getDriverIdNumber() {
         return driverIdNumber;
     }
@@ -63,7 +62,6 @@ public class Driver {
     public void setDriverPhoneNumber(String driverPhoneNumber) {
         DriverPhoneNumber = driverPhoneNumber;
     }
-
 
     //Statement 3
     public void setCab(Cab cab) {

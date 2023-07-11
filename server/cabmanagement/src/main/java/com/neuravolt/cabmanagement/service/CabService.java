@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface CabService {
 
+    //API CRUD
     public String createCab(Cab cab);
     public String updateCab(Cab cab);
     public String deleteCab(String cabRegistrationNumber);
