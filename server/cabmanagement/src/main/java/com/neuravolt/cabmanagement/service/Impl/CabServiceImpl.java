@@ -58,6 +58,17 @@ public class CabServiceImpl implements CabService {
         }
     }
 
+
+    //Get All cabs
+    @Override
+    public List<Cab> getAllCab() {
+        try {
+            return cabRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve cab details: " + e.getMessage());
+        }
+    }
+
     //Delete existing cab
     @Override
     public String deleteCab(String cabRegistrationNumber) {
@@ -70,16 +81,6 @@ public class CabServiceImpl implements CabService {
             return "Cab successfully deleted";
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete cab: " + e.getMessage());
-        }
-    }
-
-    //Get All cabs
-    @Override
-    public List<Cab> getAllCab() {
-        try {
-            return cabRepository.findAll();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to retrieve cab details: " + e.getMessage());
         }
     }
 

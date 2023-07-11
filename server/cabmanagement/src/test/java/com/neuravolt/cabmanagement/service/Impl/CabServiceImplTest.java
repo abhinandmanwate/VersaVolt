@@ -5,15 +5,16 @@ import com.neuravolt.cabmanagement.service.CabService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 class CabServiceImplTest {
@@ -56,15 +57,7 @@ class CabServiceImplTest {
 
     }
 
-    @Test
-    void TestDeleteCab() {
-        mock(Cab.class);
-        mock(CabRepository.class);
 
-        when(cabRepository.save(cab)).thenReturn(cab);
-        assertThat(cabService.deleteCab(cab.getCabRegistrationNumber())).isEqualTo("Cab does not exist");
-
-    }
 
     @Test
     void TestGetAllCab() {
@@ -79,6 +72,16 @@ class CabServiceImplTest {
 
     }
 
+    @Test
+    void TestDeleteCab() {
+        mock(Cab.class);
+        mock(CabRepository.class, Mockito.CALLS_REAL_METHODS);
+        doAnswer(Answers.CALLS_REAL_METHODS).when(
+                cabRepository).deleteById(any());
+        assertThat(cabService.deleteCab("BCC123")).isEqualTo("Cab does not exist");
+        //Validation Message
+
+    }
     @Test
     void assignDriverToCab() {
 
