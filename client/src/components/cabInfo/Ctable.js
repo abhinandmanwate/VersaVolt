@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Cmodal from "./Cmodal";
 
 const Ctable = () => {
+  const [selectedCabData, setSelectedCabData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [cabs, setCabs] = useState([]);
   const [newCabData, setNewCabData] = useState({
@@ -98,6 +99,12 @@ const Ctable = () => {
   //   };
   return (
     <div className="table-wrapper">
+      {modalOpen && (
+        <Cmodal
+          closeModal={() => setModalOpen(false)}
+          selectedCabData={selectedCabData}
+        />
+      )}
       <table className="table">
         <thead>
           <tr>
@@ -116,7 +123,12 @@ const Ctable = () => {
               <td>{cab.cabModel}</td>
               <td>{cab.cabColour}</td>
               <td className="actions">
-                <span>
+                <span
+                  onClick={() => {
+                    setSelectedCabData(cab);
+                    setModalOpen(true);
+                  }}
+                >
                   <EditIcon />
                 </span>
                 <span onClick={() => deleteCab(cab.cabRegistrationNumber)}>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../../css/Dmodal.css";
 
-const Dmodal = ({ closeModal }) => {
+const Cmodal = ({ closeModal }) => {
   const [newCabData, setNewCabData] = useState({
     cabRegistrationNumber: "",
     cabModel: "",
@@ -19,6 +19,7 @@ const Dmodal = ({ closeModal }) => {
       console.log(response.data);
       // Perform any additional actions or update UI as needed
       // history.push("/ctable");
+      closeModal();
     } catch (error) {
       console.error(error);
     }
@@ -81,4 +82,4 @@ const Dmodal = ({ closeModal }) => {
   );
 };
 
-export default Dmodal;
+export default Cmodal;

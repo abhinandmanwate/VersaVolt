@@ -20,10 +20,10 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
           {rows.map((row, idx) => {
             return (
               <tr key={idx}>
-                <td>{row.id}</td>
-                <td>{row.name}</td>
-                <td className="expand">{row.email}</td>
-                <td>{row.mobile}</td>
+                <td>{row.driverIdNumber}</td>
+                <td>{row.driverName}</td>
+                <td className="expand">{row.driverEmail}</td>
+                <td>{row.driverPhoneNumber}</td>
                 <td>
                   <span className="actions">
                     <EditIcon
@@ -32,8 +32,12 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
                     />
                     <DeleteIcon
                       className="delete-btn"
-                      onClick={() => deleteRow(idx)}
+                      onClick={() => deleteRow(row.driverIdNumber)}
                     />
+                    {/* <DeleteIcon
+                      className="delete-btn"
+                      onClick={() => deleteRow(idx)}
+                    /> */}
                   </span>
                 </td>
               </tr>
