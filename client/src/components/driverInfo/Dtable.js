@@ -20,19 +20,16 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
           {rows.map((row, idx) => {
             return (
               <tr key={idx}>
-<<<<<<< HEAD
-                <td data-title="Driver Id">{row.id}</td>
+                {/* <td data-title="Driver Id">{row.id}</td>
                 <td data-title="Driver Name">{row.name}</td>
                 <td data-title="Driver Email" className="expand">{row.email}</td>
                 <td data-title="Driver Mobile">{row.mobile}</td>
-                <td data-title="Action">
-=======
+                <td data-title="Action"> */}
                 <td>{row.driverIdNumber}</td>
                 <td>{row.driverName}</td>
                 <td className="expand">{row.driverEmail}</td>
                 <td>{row.driverPhoneNumber}</td>
                 <td>
->>>>>>> 42ecb20d9930d03f917438519cea33558b0720d3
                   <span className="actions">
                     <EditIcon
                       className="edit-btn"
