@@ -56,6 +56,7 @@ const Dmodal = ({ closeModal, onSubmit, defaultValue }) => {
     >
       <div className="modal">
         <form>
+          <h3>Enter Driver details</h3>
           <div className="form-group">
             <label htmlFor="id">Id</label>
             <input name="id" value={formState.id} onChange={handleChange} />
@@ -83,10 +84,13 @@ const Dmodal = ({ closeModal, onSubmit, defaultValue }) => {
               onChange={handleChange}
             />
           </div>
+
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button className="btn" type="submit" onClick={handleSubmit}>
+          
+          <button id="btn-1" className="btn" type="submit" onClick={handleSubmit}>
             Submit
-          </button>
+          </button>            
+          
         </form>
       </div>
     </div>
