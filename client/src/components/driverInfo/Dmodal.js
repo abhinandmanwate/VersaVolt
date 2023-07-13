@@ -272,6 +272,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
 
   const [errors, setErrors] = useState("");
   const [editedFields, setEditedFields] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false); // Track whether it's an update or create operation
 
   const validateForm = () => {
     // Validation logic here
@@ -298,6 +299,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
   useEffect(() => {
     if (defaultValue) {
       setFormState(defaultValue);
+      setIsUpdate(true); // Set isUpdate to true if defaultValue is provided
     }
   }, [defaultValue]);
 
@@ -323,7 +325,15 @@ const Dmodal = ({ closeModal, defaultValue }) => {
     if (!validateForm()) return;
 
     console.log(formState);
-    createDriver(formState);
+    if (isUpdate) {
+      // Handle the update operation
+      updateDriver(formState);
+    } else {
+      // Handle the create operation
+      createDriver(formState);
+    }
+    // createDriver(formState);
+    // updateDriver(formState);
   };
 
   const createDriver = async (newDriverData) => {
@@ -332,6 +342,18 @@ const Dmodal = ({ closeModal, defaultValue }) => {
       const response = await axios.post(
         "http://localhost:8080/driverapi",
         newDriverData
+      );
+      console.log(response.data);
+      closeModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateDriver = async (updatedDriverData) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/driverapi`,
+        updatedDriverData
       );
       console.log(response.data);
       closeModal();
@@ -348,8 +370,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
       }}
     >
       <div className="modal">
-        
-        <form onSubmit={handleSubmit}>
+        <form>
           <h3>Enter Driver details</h3>
           {/* Form fields */}
           <div className="form-group">
@@ -389,18 +410,24 @@ const Dmodal = ({ closeModal, defaultValue }) => {
           </div>
 
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          
-          
+
           <div className="dform-btn">
             <button className="btn" type="submit" onClick={handleSubmit}>
+              {isUpdate ? "Edit" : "Submit"}
+            </button>
+            {/* <button className="btn" type="submit" onClick={handleSubmit}>
               Edit
             </button>
 
-            <button id="btn-1" className="btn" type="submit" onClick={handleSubmit}>
+            <button
+              id="btn-1"
+              className="btn"
+              type="submit"
+              onClick={handleSubmit}
+            >
               Submit
-            </button>            
-          </div>           
-          
+            </button> */}
+          </div>
         </form>
       </div>
     </div>
