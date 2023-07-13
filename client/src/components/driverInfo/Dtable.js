@@ -9,7 +9,6 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
       <table className="table">
         <thead>
           <tr>
-            {/* <th>Sr No.</th> */}
             <th>Driver Id Number</th>
             <th>Driver Name</th>
             <th className="expand">Driver Email</th>
@@ -21,16 +20,14 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
           {rows.map((row, idx) => {
             return (
               <tr key={idx}>
-                {/* <td data-title="Driver Id">{row.id}</td>
-                <td data-title="Driver Name">{row.name}</td>
-                <td data-title="Driver Email" className="expand">{row.email}</td>
-                <td data-title="Driver Mobile">{row.mobile}</td>
-                <td data-title="Action"> */}
-                {/* <td>{idx + 1}</td> */}
-                <td>{row.driverIdNumber}</td>
-                <td>{row.driverName}</td>
-                <td className="expand">{row.driverEmail}</td>
-                <td>{row.driverPhoneNumber}</td>
+                <td data-title="Driver Id Number">{row.driverIdNumber}</td>
+                <td data-title="Driver Name">{row.driverName}</td>
+                <td data-title="Driver Email" className="expand">
+                  {row.driverEmail}
+                </td>
+                <td data-title="Driver Phone Number">
+                  {row.driverPhoneNumber}
+                </td>
                 <td>
                   <span className="actions">
                     <EditIcon
@@ -41,10 +38,6 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
                       className="delete-btn"
                       onClick={() => deleteRow(row.driverIdNumber)}
                     />
-                    {/* <DeleteIcon
-                      className="delete-btn"
-                      onClick={() => deleteRow(idx)}
-                    /> */}
                   </span>
                 </td>
               </tr>
