@@ -24,7 +24,7 @@ function DriverCRUD() {
     getDriver();
   }, []);
 
-  const deleteCab = async (deleteDriverIdNumber) => {
+  const deleteDriver = async (deleteDriverIdNumber) => {
     console.log("Entered delete " + deleteDriverIdNumber);
     try {
       const response = await axios.delete(
@@ -39,11 +39,6 @@ function DriverCRUD() {
       console.error(error);
     }
   };
-
-  //Handle delete rows
-  // const handleDeleteRow = (targetIndex) => {
-  //   setRows(rows.filter((_, idx) => idx !== targetIndex));
-  // };
 
   // Edit the field
   const handleEditRow = (idx) => {
@@ -67,7 +62,7 @@ function DriverCRUD() {
 
   return (
     <div className="DriverCRUD">
-      <Dtable rows={rows} deleteRow={deleteCab} editRow={handleEditRow} />
+      <Dtable rows={rows} deleteRow={deleteDriver} editRow={handleEditRow} />
       <button className="btn" onClick={() => setModalOpen(true)}>
         Add
       </button>
