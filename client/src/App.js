@@ -2,9 +2,11 @@ import "./css/DriverCRUD.css";
 
 //                                            Driver
 import DriverCRUD from "./components/mainComp/DriverCRUD";
-import CabCRUD from "./components/mainComp/CabCRUD";
+// import DriverList from "./components/DriverList";
+
 
 //                                            Cab
+// import CabCRUD from "./components/mainComp/CabCRUD";
 
 //                                          Cab & Diver
 
