@@ -25,11 +25,11 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
                 <td data-title="Driver Email" className="expand">{row.email}</td>
                 <td data-title="Driver Mobile">{row.mobile}</td>
                 <td data-title="Action"> */}
-                <td>{row.driverIdNumber}</td>
-                <td>{row.driverName}</td>
+                <td data-title="Driver Id">{row.driverIdNumber}</td>
+                <td data-title="Driver Name">{row.driverName}</td>
                 <td className="expand">{row.driverEmail}</td>
-                <td>{row.driverPhoneNumber}</td>
-                <td>
+                <td data-title="Driver Mobile">{row.driverPhoneNumber}</td>
+                <td data-title="Action">
                   <span className="actions">
                     <EditIcon
                       className="edit-btn"
