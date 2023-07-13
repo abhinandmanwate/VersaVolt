@@ -41,4 +41,11 @@
   .form-group label {
     margin-bottom: 0.2rem;
   }
-  
+
+  .error {
+    background-color: #f8d7da;
+    color: #df4759;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    margin-bottom: 1rem;
+  }

@@ -16,6 +16,7 @@
     margin: auto;
     table-layout: auto;
     overflow-x: auto;
+    text-align: center;
   }
   
   .table thead {
@@ -61,4 +62,7 @@
   
   .delete-btn {
     color: #e10d05;
+    margin-left: 1rem;
   }
+
+  
