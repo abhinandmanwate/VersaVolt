@@ -3,6 +3,7 @@
     width: 100%;
   }
   
+  
   .table {
     display: block;
     overflow: hidden;
@@ -11,12 +12,13 @@
     box-shadow: 0px 10px 10px #ccc;
     border-radius: 10px;
     white-space: nowrap;
-    width: 100em;
+    width: 900px;
     max-width: 80%;
     margin: auto;
     table-layout: auto;
     overflow-x: auto;
     text-align: center;
+    height: fit-content;
   }
   
   .table thead {
@@ -72,6 +74,11 @@
 
   /* CSS for mobile view */
   @media only screen and (max-width: 720px){
+    
+    .table {
+      height: 470px;
+      overflow-y: scroll;
+    }
         
     .table thead{
       display: none;
@@ -123,7 +130,8 @@
     }
   }
 
-
+  
+  
 
 
   /* @media only screen and (max-width: 720px) {
