@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../css/Dtable.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CustomPagination from "../Pagination";
 
 const Ctable = ({ rows, deleteRow, editRow }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  // Calculate the index range for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = rows.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Function to handle page navigation
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -18,10 +31,11 @@ const Ctable = ({ rows, deleteRow, editRow }) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => {
+          {currentItems.map((row, idx) => {
+            const rowIndex = indexOfFirstItem + idx;
             return (
-              <tr key={idx}>
-                <td data-title="Sr No.">{idx + 1}</td>
+              <tr key={rowIndex}>
+                <td data-title="Sr No.">{rowIndex + 1}</td>
                 <td data-title="Cab Registration Number" className="expand">
                   {row.cabRegistrationNumber}
                 </td>
@@ -31,7 +45,7 @@ const Ctable = ({ rows, deleteRow, editRow }) => {
                   <span className="actions">
                     <EditIcon
                       className="edit-btn"
-                      onClick={() => editRow(idx)}
+                      onClick={() => editRow(rowIndex)}
                     />
                     <DeleteIcon
                       className="delete-btn"
@@ -44,6 +58,13 @@ const Ctable = ({ rows, deleteRow, editRow }) => {
           })}
         </tbody>
       </table>
+      {/* Pagination */}
+      <CustomPagination
+        totalItems={rows.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

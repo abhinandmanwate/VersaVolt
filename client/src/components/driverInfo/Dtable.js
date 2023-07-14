@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../css/Dtable.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CustomPagination from "../Pagination";
 
 const Dtable = ({ rows, deleteRow, editRow }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+
+  // Calculate the index range for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = rows.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Function to handle page navigation
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -17,9 +30,10 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => {
+          {currentItems.map((row, idx) => {
+            const rowIndex = indexOfFirstItem + idx;
             return (
-              <tr key={idx}>
+              <tr key={rowIndex}>
                 <td data-title="Driver Id Number">{row.driverIdNumber}</td>
                 <td data-title="Driver Name">{row.driverName}</td>
                 <td data-title="Driver Email" className="expand">
@@ -32,7 +46,7 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
                   <span className="actions">
                     <EditIcon
                       className="edit-btn"
-                      onClick={() => editRow(idx)}
+                      onClick={() => editRow(rowIndex)}
                     />
                     <DeleteIcon
                       className="delete-btn"
@@ -45,6 +59,13 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
           })}
         </tbody>
       </table>
+      {/* Pagination */}
+      <CustomPagination
+        totalItems={rows.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
