@@ -1,144 +1,70 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "../../css/Dtable.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Cmodal from "./Cmodal";
+import CustomPagination from "../Pagination";
 
-const Ctable = () => {
-  const [selectedCabData, setSelectedCabData] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [cabs, setCabs] = useState([]);
-  const [newCabData, setNewCabData] = useState({
-    cabRegistrationNumber: "",
-    cabModel: "",
-    cabColour: "",
-  });
-  const [updatedCabData, setUpdatedCabData] = useState({
-    cabRegistrationNumber: "",
-    cabModel: "",
-    cabColour: "",
-  });
-  //   const [deleteCabRegistrationNumber, setDeleteCabRegistrationNumber] =
-  //     useState("");
+const Ctable = ({ rows, deleteRow, editRow }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
-  const getCabs = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/cabapi");
-      //   console.log(response.data);
-      setCabs(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  // Calculate the index range for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = rows.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Function to handle page navigation
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
-
-  useEffect(() => {
-    getCabs();
-  }, []);
-
-  const createCab = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/cabapi",
-        newCabData
-      );
-      console.log(response.data);
-      // Perform any additional actions or update UI as needed
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateCab = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.put(
-        "http://localhost:8080/cabapi",
-        updatedCabData
-      );
-      console.log(response.data);
-      // Perform any additional actions or update UI as needed
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteCab = async (deleteCabRegistrationNumber) => {
-    console.log("Entered delete " + deleteCabRegistrationNumber);
-    try {
-      const response = await axios.delete(
-        `http://localhost:8080/cabapi/${deleteCabRegistrationNumber}`
-      );
-      console.log(response.data);
-      // Perform any additional actions or update UI as needed
-
-      // getCabs() to reload the table
-      getCabs();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  //   const handleNewCabInputChange = (event) => {
-  //     setNewCabData({
-  //       ...newCabData,
-  //       [event.target.name]: event.target.value,
-  //     });
-  //   };
-
-  //   const handleUpdatedCabInputChange = (event) => {
-  //     setUpdatedCabData({
-  //       ...updatedCabData,
-  //       [event.target.name]: event.target.value,
-  //     });
-  //   };
-
-  //   const handleDeleteCabInputChange = (event) => {
-  //     setDeleteCabRegistrationNumber(event.target.value);
-  //   };
   return (
     <div className="table-wrapper">
-      {modalOpen && (
-        <Cmodal
-          closeModal={() => setModalOpen(false)}
-          selectedCabData={selectedCabData}
-        />
-      )}
       <table className="table">
         <thead>
           <tr>
             <th>Sr No.</th>
             <th className="expand">Cab Registration Number</th>
             <th>Cab Model</th>
-            <th>Cab Colour</th>
+            <th>Cab Color</th>
+            {/* <th>Driver Phone Number</th> */}
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {cabs.map((cab, index) => (
-            <tr key={cab.cabRegistrationNumber}>
-              <td>{index + 1}</td>
-              <td>{cab.cabRegistrationNumber}</td>
-              <td>{cab.cabModel}</td>
-              <td>{cab.cabColour}</td>
-              <td className="actions">
-                <span
-                  onClick={() => {
-                    setSelectedCabData(cab);
-                    setModalOpen(true);
-                  }}
-                >
-                  <EditIcon />
-                </span>
-                <span onClick={() => deleteCab(cab.cabRegistrationNumber)}>
-                  <DeleteIcon />
-                </span>
-              </td>
-            </tr>
-          ))}
+          {currentItems.map((row, idx) => {
+            const rowIndex = indexOfFirstItem + idx;
+            return (
+              <tr key={rowIndex}>
+                <td data-title="Sr No.">{rowIndex + 1}</td>
+                <td data-title="Cab Registration Number" className="expand">
+                  {row.cabRegistrationNumber}
+                </td>
+                <td data-title="Cab Model">{row.cabModel}</td>
+                <td data-title="Cab Color">{row.cabColour}</td>
+                <td>
+                  <span className="actions">
+                    <EditIcon
+                      className="edit-btn"
+                      onClick={() => editRow(rowIndex)}
+                    />
+                    <DeleteIcon
+                      className="delete-btn"
+                      onClick={() => deleteRow(row.cabRegistrationNumber)}
+                    />
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      {/* Pagination */}
+      <CustomPagination
+        totalItems={rows.length}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
