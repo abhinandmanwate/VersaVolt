@@ -33,6 +33,19 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
           {currentItems.map((row, idx) => {
             const rowIndex = indexOfFirstItem + idx;
             return (
+<<<<<<< HEAD
+              <tr key={idx}>
+                {/* <td data-title="Driver Id">{row.id}</td>
+                <td data-title="Driver Name">{row.name}</td>
+                <td data-title="Driver Email" className="expand">{row.email}</td>
+                <td data-title="Driver Mobile">{row.mobile}</td>
+                <td data-title="Action"> */}
+                <td data-title="Driver Id">{row.driverIdNumber}</td>
+                <td data-title="Driver Name">{row.driverName}</td>
+                <td className="expand">{row.driverEmail}</td>
+                <td data-title="Driver Mobile">{row.driverPhoneNumber}</td>
+                <td data-title="Action">
+=======
               <tr key={rowIndex}>
                 <td data-title="Driver Id Number">{row.driverIdNumber}</td>
                 <td data-title="Driver Name">{row.driverName}</td>
@@ -43,6 +56,7 @@ const Dtable = ({ rows, deleteRow, editRow }) => {
                   {row.driverPhoneNumber}
                 </td>
                 <td>
+>>>>>>> 814171fe83daf7e47b4469a54f98a781294ddd99
                   <span className="actions">
                     <EditIcon
                       className="edit-btn"
