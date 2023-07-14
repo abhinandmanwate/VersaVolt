@@ -1,8 +1,7 @@
 /* css for table  */
 .table-wrapper {
     width: 100%;
-  }
-  
+  }  
   
   .table {
     display: block;
@@ -74,7 +73,7 @@
 
   /* CSS for mobile view */
   @media only screen and (max-width: 720px){
-    
+
     .table {
       height: 470px;
       overflow-y: scroll;
