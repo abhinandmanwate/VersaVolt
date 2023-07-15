@@ -1,13 +1,9 @@
-
-
-// -----------------------------------------------2---------------------------------------------
-
 import React, { useEffect, useState } from "react";
 import MCabAssign from "../cabDiver/MCabAssign";
 import MCabModal from "../cabDiver/MCabmodal";
 import MCabTable from "../cabDiver/MCabtable";
-import "../../css/ManageCab.css"
 import axios from "axios";
+import "../../css/ManageCab.css";
 
 const ManageCab = () => {
   const [rows, setRows] = useState([]);
@@ -87,7 +83,7 @@ const ManageCab = () => {
 
   return (
     <div>
-      <div >
+      <div>
         <h1 className="heading">Manage Cabs</h1>
       </div>
       <div className="gridMCab">
@@ -102,9 +98,8 @@ const ManageCab = () => {
           onEditClick={handleEditClick}
           getAssignedDriver={getAssignedDriver}
           onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-        />        
+        />
       </div>
-      
       {modalOpen && (
         <MCabModal
           cabRegistrationNumber={selectedCab}
@@ -114,13 +109,11 @@ const ManageCab = () => {
           onDeleteCab={handleCabDelete} // Pass the handleCabDelete function
         />
       )}
-      
       <div className="back">
         <button className="btn">Back</button>
       </div>
-      
     </div>
   );
 };
 
-export default ManageCab
+export default ManageCab;

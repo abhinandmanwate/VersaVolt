@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Ctable from "../cabInfo/Ctable";
@@ -42,11 +40,6 @@ function CabCRUD() {
     }
   };
 
-  //Handle delete rows
-  // const handleDeleteRow = (targetIndex) => {
-  //   setRows(rows.filter((_, idx) => idx !== targetIndex));
-  // };
-
   // Edit the field
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
@@ -69,7 +62,7 @@ function CabCRUD() {
 
   return (
     <div className="DriverCRUD">
-        <h1 className="heading">List of Cabs</h1>
+      <h1 className="heading">List of Cabs</h1>
       <Ctable rows={rows} deleteRow={deleteCab} editRow={handleEditRow} />
       <div className="buttons">
         <button className="btn" id="Back">
@@ -83,7 +76,6 @@ function CabCRUD() {
         <button className="btn" id="Assign">
           Assign
         </button>
-        
       </div>
       {modalOpen && (
         <Cmodal

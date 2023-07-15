@@ -4,7 +4,11 @@ import backgroundImage from "../../assets/images/bg1.png"; // Import the backgro
 
 const Body = () => {
   return (
-    <section className="home" id="home" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <section
+      className="home"
+      id="home"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
       <div className="text">
         <h1>
           <span>Searching</span>
