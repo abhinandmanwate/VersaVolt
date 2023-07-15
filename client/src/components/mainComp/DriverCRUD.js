@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Dtable from "../driverInfo/Dtable";
 import Dmodal from "../driverInfo/Dmodal";
+import "../../css/DriverCRUD.css"
 
 function DriverCRUD() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -62,10 +63,22 @@ function DriverCRUD() {
 
   return (
     <div className="DriverCRUD">
+      <h1 className="heading">List of Drivers</h1>
       <Dtable rows={rows} deleteRow={deleteDriver} editRow={handleEditRow} />
-      <button className="btn" onClick={() => setModalOpen(true)}>
-        Add
-      </button>
+      <div className="buttons">
+        <button className="btn" id="Back">
+          Back
+        </button>
+
+        <button className="btn" onClick={() => setModalOpen(true)}>
+          Add Driver
+        </button>
+
+        <button className="btn" id="Assign">
+          Assign
+        </button>
+        
+      </div>
       {modalOpen && (
         <Dmodal
           closeModal={() => {

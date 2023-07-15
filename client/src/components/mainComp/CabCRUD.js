@@ -1,27 +1,4 @@
-// import React, { useState } from "react";
-// import Ctable from "../cabInfo/Ctable";
-// import Cmodal from "../cabInfo/Cmodal";
 
-// const CabCRUD = () => {
-//   const [modalOpen, setModalOpen] = useState(false);
-//   return (
-//     <div className="DriverCRUD">
-//       <Ctable />
-//       <button className="btn" onClick={() => setModalOpen(true)}>
-//         Add
-//       </button>
-//       {modalOpen && (
-//         <Cmodal
-//           closeModal={() => {
-//             setModalOpen(false);
-//           }}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CabCRUD;
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -92,10 +69,22 @@ function CabCRUD() {
 
   return (
     <div className="DriverCRUD">
+        <h1 className="heading">List of Cabs</h1>
       <Ctable rows={rows} deleteRow={deleteCab} editRow={handleEditRow} />
-      <button className="btn" onClick={() => setModalOpen(true)}>
-        Add
-      </button>
+      <div className="buttons">
+        <button className="btn" id="Back">
+          Back
+        </button>
+
+        <button className="btn" onClick={() => setModalOpen(true)}>
+          Add Cab
+        </button>
+
+        <button className="btn" id="Assign">
+          Assign
+        </button>
+        
+      </div>
       {modalOpen && (
         <Cmodal
           closeModal={() => {
