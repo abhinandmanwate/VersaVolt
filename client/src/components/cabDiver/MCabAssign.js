@@ -1,10 +1,6 @@
-
-
-// ------------------------------------------------------------ 1 ===============================================
-
 import React, { useState } from "react";
 import axios from "axios";
-import "../../css/CDassign.css"
+import "../../css/CDassign.css";
 
 const MCabAssign = ({ drivers, onCabUpdate, getAssignedDriver }) => {
   const [cabRegistrationNumber, setCabRegistrationNumber] = useState("");
@@ -25,11 +21,6 @@ const MCabAssign = ({ drivers, onCabUpdate, getAssignedDriver }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onDriverSelect(selectedDriver);
-    closeModal();
-  };
   return (
     <div className="MCabAssign">
       <div>
@@ -57,7 +48,9 @@ const MCabAssign = ({ drivers, onCabUpdate, getAssignedDriver }) => {
           ))}
         </select>
       </label>
-      <button className="btn" onClick={handleAssign}>Assign</button>
+      <button className="btn" onClick={handleAssign}>
+        Assign
+      </button>
     </div>
   );
 };
