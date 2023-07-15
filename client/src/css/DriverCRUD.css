@@ -17,3 +17,39 @@
     cursor: pointer;
     box-shadow: 0px 5px 5px #ccc;
   }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .buttons #Back {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .buttons #Back:hover {
+    background-color: #45a049;
+  }
+  
+  .buttons #Assign {
+    background-color: #fe5b3d;
+    color: white;
+  }
+  
+  .buttons #Assign:hover {
+    background-color: #ffac38;
+    color: #444;
+  }
+
+  .heading{
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.heading h1 {
+    font-size: 2rem;
+}
+

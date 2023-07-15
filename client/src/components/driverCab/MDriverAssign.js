@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "../../css/CDassign.css"
 
 const MDriverAssign = ({ cabs, onDriverUpdate, getAssignedCab }) => {
   const [driverId, setDriverId] = useState("");
@@ -22,7 +23,10 @@ const MDriverAssign = ({ cabs, onDriverUpdate, getAssignedCab }) => {
 
   return (
     <div>
-      <h2>Assign Cab to Driver</h2>
+      <div>
+        <h2 className="head2">Assign Cab to Driver</h2>
+      </div>
+      
       <label>
         Driver ID:
         <input
@@ -48,7 +52,7 @@ const MDriverAssign = ({ cabs, onDriverUpdate, getAssignedCab }) => {
           ))}
         </select>
       </label>
-      <button onClick={handleAssign}>Assign</button>
+      <button className="btn" onClick={handleAssign}>Assign</button>
     </div>
   );
 };

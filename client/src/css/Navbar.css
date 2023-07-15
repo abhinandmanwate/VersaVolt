@@ -1,0 +1,71 @@
+.navbar-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F8F8F8;
+    padding: 15px 100px;
+  }
+  
+  .logo img {
+     width: 50px;
+  }
+  
+  .navbar {
+    display: flex;
+  }
+  
+  .navbar li {
+    position: relative;
+  }
+  
+  .navbar li a {
+    padding: 10px;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    color: #444;
+    font-weight: 500;
+    position: relative; /* Add this line */
+  }
+  
+  .navbar a::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    background: linear-gradient(#fe5b3d, #ffac38);
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transition: 0.5s;
+  }
+  
+  .navbar a:hover::after {
+    width: 100%;
+  }
+  
+  
+  .header-btn a {
+    padding: 10px 20px;
+    color: #444;
+    font-weight: 500;
+  }
+
+  .header-btn .sign-up{
+    margin-right: 1rem;
+  }
+  
+  .header-btn .sign-in, .header-btn .sign-up {
+    background: #474fa0;
+    color: #fff;
+    border-radius: 0.5rem;
+  }
+  
+  .header-btn .sign-in:hover, .header-btn .sign-up:hover {
+    background: #fe5b3d;
+    color: black;
+  }
+  

@@ -1,0 +1,7 @@
+export const variables = {
+    mainColor: "#fe5b3d",
+    secondColor: "#ffac38",
+    textColor: "#444",
+    gradient: "linear-gradient(#fe5b3d, #ffac38)",
+  };
+  

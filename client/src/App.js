@@ -8,8 +8,10 @@ import "./css/DriverCRUD.css";
 
 //                                          Cab & Diver
 import ManageCab from "./components/mainComp/ManageCab";
-import ManageDriver from "./components/mainComp/ManageDriver";
+// import ManageDriver from "./components/mainComp/ManageDriver";
 
+//                                             Home page
+import Landing from "./components/mainComp/Landing";
 function App() {
   return (
     <div className="App">
@@ -17,16 +19,18 @@ function App() {
       {/* <DriverCRUD /> */}
       {/* <CabCRUD /> */}
       <ManageCab/>
+      {/* <ManageDriver /> */}
+
+      {/* <Landing/> */}
 
 
-      <DriverCRUD />
       {/* <CabCRUD /> */}
       {/* <ManageCab/> */}
+      {/* <DriverCRUD /> */}
 
       {/* <DriverCRUD />
       <CabCRUD />
       <ManageCab /> */}
-      <ManageDriver />
 
     </div>
   );

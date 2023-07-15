@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MDriverAssign from "../driverCab/MDriverAssign";
 import MDriverModal from "../driverCab/MDriverModal";
 import MDriverTable from "../driverCab/MDriverTable";
+import "../../css/ManageCab.css"
 import axios from "axios";
 
 const ManageDriver = () => {
@@ -78,13 +79,25 @@ const ManageDriver = () => {
 
   return (
     <div>
-      <h1>Manage Drivers</h1>
-      <MDriverTable
-        rows={rows}
-        onEditClick={handleEditClick}
-        assignedCabs={assignedCabs}
-        onDriverUpdate={handleDriverUpdate}
-      />
+      <div >
+        <h1 className="heading">Manage Drivers</h1>
+      </div>
+      <div className="gridMCab">
+        {cabs.length > 0 && (
+          <MDriverAssign
+            cabs={cabs}
+            onDriverUpdate={handleDriverUpdate}
+            getAssignedCab={getAssignedCab}
+          />
+        )}
+
+        <MDriverTable
+          rows={rows}
+          onEditClick={handleEditClick}
+          assignedCabs={assignedCabs}
+          onDriverUpdate={handleDriverUpdate}
+        />
+      </div>
       {modalOpen && (
         <MDriverModal
           driverId={selectedDriver}
@@ -94,13 +107,7 @@ const ManageDriver = () => {
           onDeleteDriver={handleDriverDelete}
         />
       )}
-      {cabs.length > 0 && (
-        <MDriverAssign
-          cabs={cabs}
-          onDriverUpdate={handleDriverUpdate}
-          getAssignedCab={getAssignedCab}
-        />
-      )}
+      
     </div>
   );
 };
