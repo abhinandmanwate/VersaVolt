@@ -67,3 +67,29 @@
   .hide {
     display: none;
   }
+
+
+  /* Assign cab css */
+  .modal-assign {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-assign .selectDriver{
+    margin-right: 1rem;
+  } 
+  
+  .modal-assign .driverList{
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    
+  }
+

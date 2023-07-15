@@ -1,24 +1,18 @@
 import React, {useState} from 'react'
 import "../../css/Dmodal.css"
 
-
-
-
-
 function MCabAssign({ closeModal, driverList, onDriverSelect }) {
-    const [selectedDriver, setSelectedDriver] = useState('');
-  
-    const handleDriverSelect = (driverID) => {
-      setSelectedDriver(driverID);
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      onDriverSelect(selectedDriver);
-      closeModal();
-    };
+  const [selectedDriver, setSelectedDriver] = useState('');
 
+  const handleDriverSelect = (driverID) => {
+    setSelectedDriver(driverID);
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onDriverSelect(selectedDriver);
+    closeModal();
+  };
   return (
     <div 
       className="modal-assign"
@@ -31,7 +25,7 @@ function MCabAssign({ closeModal, driverList, onDriverSelect }) {
       <div className="modal">
         <h3>Assign Driver</h3>
         <div className="form-group">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className='driverList'>
               <label className="selectDriver" htmlFor="DriverID">Select Driver</label>
               <select
@@ -40,16 +34,17 @@ function MCabAssign({ closeModal, driverList, onDriverSelect }) {
                 onChange={(e) => handleDriverSelect(e.target.value)}
               >
                 <option value="">Select</option>
-                {driverList.map((driver, idx) => (
-                  <option key={idx} value={driver.DriverID}>
+                {driverList.map((driver) => (
+                  <option key={driver.DriverID} value={driver.DriverID}>
                     {driver.DriverName}
                   </option>
                 ))}
               </select>
             </div>
-            
-            
-            <button type='submit' className="btn" onClick={handleSubmit}>Submit</button>
+            <button type="submit" className="btn">
+              Submit
+            </button>           
+            {/* <button type='submit' className="btn" onClick={handleSubmit}>Submit</button> */}
           </form>
         </div>      
       </div> 
