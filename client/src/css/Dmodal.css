@@ -68,7 +68,6 @@
     display: none;
   }
 
-
   /* Assign cab css */
   .modal-assign {
     position: fixed;
@@ -90,6 +89,4 @@
   .modal-assign .driverList{
     margin-bottom: 1rem;
     padding: 0.5rem;
-    
   }
-

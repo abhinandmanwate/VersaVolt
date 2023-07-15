@@ -11,7 +11,7 @@
     box-shadow: 0px 10px 10px #ccc;
     border-radius: 10px;
     white-space: nowrap;
-    width: 900px;
+    width: fit-content;
     max-width: 80%;
     margin: auto;
     table-layout: auto;

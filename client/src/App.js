@@ -7,21 +7,27 @@ import "./css/DriverCRUD.css";
 // import CabCRUD from "./components/mainComp/CabCRUD";
 
 //                                          Cab & Diver
-import ManageCab from "./components/mainComp/ManageCab"
+import ManageCab from "./components/mainComp/ManageCab";
+import ManageDriver from "./components/mainComp/ManageDriver";
 
 function App() {
   return (
     <div className="App">
-<<<<<<< HEAD
+
       {/* <DriverCRUD /> */}
       {/* <CabCRUD /> */}
       <ManageCab/>
 
-=======
+
       <DriverCRUD />
       {/* <CabCRUD /> */}
       {/* <ManageCab/> */}
->>>>>>> 5cd25d3d2670cf4d01521f7e484bafe5018531ea
+
+      {/* <DriverCRUD />
+      <CabCRUD />
+      <ManageCab /> */}
+      <ManageDriver />
+
     </div>
   );
 }
