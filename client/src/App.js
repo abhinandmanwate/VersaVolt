@@ -9,14 +9,19 @@ import "./css/DriverCRUD.css";
 //                                          Cab & Diver
 import ManageCab from "./components/mainComp/ManageCab"
 
-
 function App() {
   return (
     <div className="App">
+<<<<<<< HEAD
       {/* <DriverCRUD /> */}
       {/* <CabCRUD /> */}
       <ManageCab/>
 
+=======
+      <DriverCRUD />
+      {/* <CabCRUD /> */}
+      {/* <ManageCab/> */}
+>>>>>>> 5cd25d3d2670cf4d01521f7e484bafe5018531ea
     </div>
   );
 }
