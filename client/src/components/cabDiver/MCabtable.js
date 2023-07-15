@@ -230,7 +230,7 @@ const MCabTable = ({ rows, onEditClick, getAssignedDriver, onCabUpdate }) => {
         <thead>
           <tr>
             <th>Sr No.</th>
-            <th className="expand">Cab Reg Number</th>
+            <th className="">Cab Reg Number</th>
             <th>Cab Model</th>
             <th>Cab Color</th>
             <th>Driver Assign</th>
@@ -243,7 +243,7 @@ const MCabTable = ({ rows, onEditClick, getAssignedDriver, onCabUpdate }) => {
             return (
               <tr key={rowIndex}>
                 <td data-title="Sr No.">{rowIndex + 1}</td>
-                <td data-title="Cab Reg Number" className="expand">
+                <td data-title="Cab Reg Number" className="">
                   {row.cabRegistrationNumber}
                 </td>
                 <td data-title="Cab Model">{row.cabModel}</td>
