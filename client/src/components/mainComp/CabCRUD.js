@@ -101,6 +101,7 @@ function CabCRUD() {
           closeModal={() => {
             setModalOpen(false);
             setRowToEdit(null);
+            getCabs();
           }}
           onSubmit={handleSubmit}
           defaultValue={rowToEdit !== null && rows[rowToEdit]}

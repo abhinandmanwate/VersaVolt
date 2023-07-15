@@ -71,6 +71,7 @@ function DriverCRUD() {
           closeModal={() => {
             setModalOpen(false);
             setRowToEdit(null);
+            getDriver();
           }}
           onSubmit={handleSubmit}
           defaultValue={rowToEdit !== null && rows[rowToEdit]}
