@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../css/Dmodal.css";
+import Config from "../../Config/Config";
 
 const Dmodal = ({ closeModal, defaultValue }) => {
   const [formState, setFormState] = useState({
@@ -78,7 +79,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
     console.log(newDriverData);
     try {
       const response = await axios.post(
-        "http://localhost:8080/driverapi",
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}`,
         newDriverData
       );
       console.log(response.data);
@@ -90,7 +91,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
   const updateDriver = async (updatedDriverData) => {
     try {
       const response = await axios.put(
-        `http://localhost:8080/driverapi`,
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}`,
         updatedDriverData
       );
       console.log(response.data);

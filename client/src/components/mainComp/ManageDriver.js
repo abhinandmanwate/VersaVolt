@@ -4,6 +4,7 @@ import MDriverModal from "../driverCab/MDriverModal";
 import MDriverTable from "../driverCab/MDriverTable";
 import axios from "axios";
 import "../../css/ManageCab.css";
+import Config from "../../Config/Config";
 
 const ManageDriver = () => {
   const [rows, setRows] = useState([]);
@@ -23,7 +24,7 @@ const ManageDriver = () => {
 
   const getDrivers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/driverapi");
+      const response = await axios.get(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}`);
       console.log(response.data);
       setRows(response.data);
     } catch (error) {
@@ -33,7 +34,7 @@ const ManageDriver = () => {
 
   const getCabs = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/cabapi");
+      const response = await axios.get(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}`);
       console.log(response.data);
       setCabs(response.data);
     } catch (error) {
@@ -44,7 +45,7 @@ const ManageDriver = () => {
   const getAssignedCab = async (driverId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/driverapi/${driverId}/cab`
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}/${driverId}/${Config.cab}`
       );
       console.log(response.data);
       return response.data || "Not assigned";

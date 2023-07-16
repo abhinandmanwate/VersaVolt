@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Dtable from "../driverInfo/Dtable";
 import Dmodal from "../driverInfo/Dmodal";
+import Config from "../../Config/Config";
+import { Link } from 'react-router-dom';
+
 
 function DriverCRUD() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -12,7 +15,7 @@ function DriverCRUD() {
 
   const getDriver = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/driverapi");
+      const response = await axios.get(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}`);
       console.log(response.data);
       setRows(response.data);
     } catch (error) {
@@ -28,7 +31,7 @@ function DriverCRUD() {
     console.log("Entered delete " + deleteDriverIdNumber);
     try {
       const response = await axios.delete(
-        `http://localhost:8080/driverapi/${deleteDriverIdNumber}`
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}/${deleteDriverIdNumber}`
       );
       console.log(response.data);
       // Perform any additional actions or update UI as needed
@@ -73,9 +76,8 @@ function DriverCRUD() {
           Add Driver
         </button>
 
-        <button className="btn" id="Assign">
-          Assign
-        </button>
+        <Link to="/assign-cab" className="btn" id="Assign">Assign</Link>
+
       </div>
       {modalOpen && (
         <Dmodal

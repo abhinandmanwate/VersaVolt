@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../../css/Dmodal.css";
+import Config from "../../Config/Config";
 
 const MDriverModal = ({
   driverId,
@@ -18,7 +19,7 @@ const MDriverModal = ({
 
   const handleUpdate = () => {
     axios
-      .put(`http://localhost:8080/driverapi/${driverId}/cab/${selectedCab}`)
+      .put(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}/${driverId}/${Config.cab}/${selectedCab}`)
       .then(() => {
         onDriverUpdate();
         onClose();
@@ -30,7 +31,7 @@ const MDriverModal = ({
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:8080/driverapi/${driverId}`)
+      .delete(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}/${driverId}`)
       .then(() => {
         onDeleteDriver();
         onClose();
