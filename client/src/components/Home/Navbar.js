@@ -1,6 +1,7 @@
 import React from "react";
 import "../../css/Navbar.css";
 import logo1 from "../../assets/images/transport.png";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -38,12 +39,14 @@ const Navbar = () => {
       </ul>
 
       <div className="header-btn">
-        <a href="#" className="sign-up">
+        <Link to="/driver" className="sign-up">Driver Page</Link>
+        <Link to="/cab" className="sign-up">Cab Page</Link>
+        {/* <a href="#" className="sign-up">
           Driver Page
         </a>
         <a href="#" className="sign-in">
           Cab Page
-        </a>
+        </a> */}
       </div>
     </header>
   );

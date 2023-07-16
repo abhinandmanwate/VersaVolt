@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../../css/Dmodal.css";
+import Config from "../../Config/Config";
 
 const MCabModal = ({
   cabRegistrationNumber,
@@ -19,7 +20,7 @@ const MCabModal = ({
   const handleUpdate = () => {
     axios
       .put(
-        `http://localhost:8080/cabapi/${cabRegistrationNumber}/driver/${selectedDriver}`
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}/${cabRegistrationNumber}/${Config.driver}/${selectedDriver}`
       )
       .then(() => {
         onCabUpdate();
@@ -32,7 +33,7 @@ const MCabModal = ({
 
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:8080/cabapi/${cabRegistrationNumber}/driver`)
+      .delete(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}/${cabRegistrationNumber}/${Config.driver}`)
       .then(() => {
         onDeleteCab();
         onClose();

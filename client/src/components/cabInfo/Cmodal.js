@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../css/Dmodal.css";
+import Config from "../../Config/Config";
 
 const Dmodal = ({ closeModal, defaultValue }) => {
   const [formState, setFormState] = useState({
@@ -76,7 +77,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
     console.log(newCabData);
     try {
       const response = await axios.post(
-        "http://localhost:8080/cabapi",
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}`,
         newCabData
       );
       console.log(response.data);
@@ -88,7 +89,7 @@ const Dmodal = ({ closeModal, defaultValue }) => {
   const updateCab = async (updatedCabData) => {
     try {
       const response = await axios.put(
-        `http://localhost:8080/cabapi`,
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}`,
         updatedCabData
       );
       console.log(response.data);

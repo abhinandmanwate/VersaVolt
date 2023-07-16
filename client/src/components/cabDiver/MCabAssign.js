@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../../css/CDassign.css";
+import Config from "../../Config/Config";
 
 const MCabAssign = ({ drivers, onCabUpdate, getAssignedDriver }) => {
   const [cabRegistrationNumber, setCabRegistrationNumber] = useState("");
@@ -9,7 +10,7 @@ const MCabAssign = ({ drivers, onCabUpdate, getAssignedDriver }) => {
   const handleAssign = async () => {
     try {
       await axios.post(
-        `http://localhost:8080/cabapi/${cabRegistrationNumber}/driver/${selectedDriver}`
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}/${cabRegistrationNumber}/${Config.driver}/${selectedDriver}`
       );
       const assignedDriver = await getAssignedDriver(cabRegistrationNumber);
       onCabUpdate();
@@ -43,7 +44,7 @@ const MCabAssign = ({ drivers, onCabUpdate, getAssignedDriver }) => {
           <option value="">Select a driver</option>
           {drivers.map((driver) => (
             <option key={driver.driverIdNumber} value={driver.driverIdNumber}>
-              {driver.driverName}
+              {driver.driverIdNumber}
             </option>
           ))}
         </select>

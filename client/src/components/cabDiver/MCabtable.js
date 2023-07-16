@@ -4,6 +4,7 @@ import "../../css/Dtable.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CustomPagination from "../Pagination";
+import Config from "../../Config/Config";
 
 const MCabTable = ({ rows, onEditClick, getAssignedDriver, onCabUpdate }) => {
   const [assignedDrivers, setAssignedDrivers] = useState({});
@@ -44,7 +45,7 @@ const MCabTable = ({ rows, onEditClick, getAssignedDriver, onCabUpdate }) => {
 
   const handleCabDelete = (cabRegistrationNumber) => {
     axios
-      .delete(`http://localhost:8080/cabapi/${cabRegistrationNumber}/driver`)
+      .delete(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}/${cabRegistrationNumber}/${Config.driver}`)
       .then(() => {
         fetchAssignedDrivers();
         onCabUpdate();

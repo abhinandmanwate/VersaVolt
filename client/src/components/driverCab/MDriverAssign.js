@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../../css/CDassign.css";
+import Config from "../../Config/Config";
 
 const MDriverAssign = ({ cabs, onDriverUpdate, getAssignedCab }) => {
   const [driverId, setDriverId] = useState("");
@@ -9,7 +10,7 @@ const MDriverAssign = ({ cabs, onDriverUpdate, getAssignedCab }) => {
   const handleAssign = async () => {
     try {
       await axios.post(
-        `http://localhost:8080/driverapi/${driverId}/cab/${selectedCab}`
+        `http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}/${driverId}/${Config.cab}/${selectedCab}`
       );
       const assignedCab = await getAssignedCab(driverId);
       onDriverUpdate();

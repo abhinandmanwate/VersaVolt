@@ -4,6 +4,7 @@ import "../../css/Dtable.css";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CustomPagination from "../Pagination";
+import Config from "../../Config/Config";
 
 const MDriverTable = ({ rows, onEditClick, assignedCabs, onDriverUpdate }) => {
   const modalRef = useRef(null);
@@ -30,7 +31,7 @@ const MDriverTable = ({ rows, onEditClick, assignedCabs, onDriverUpdate }) => {
 
   const handleDriverDelete = (driverId) => {
     axios
-      .delete(`http://localhost:8080/driverapi/${driverId}/cab`)
+      .delete(`http://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}/${driverId}/${Config.cab}`)
       .then(() => {
         onDriverUpdate();
       })
