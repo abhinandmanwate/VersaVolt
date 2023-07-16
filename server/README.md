@@ -1,51 +1,147 @@
-This is step by step guid to build the Backend of the Cab Management App, If you follow this you can build REST backend:
 
- cab management application using the first approach, where MySQL is installed before Docker:
+# Cab Management Project - Backend Microservice
 
-1. Set up an AWS EC2 instance:
-   - Log in to the AWS Management Console.
-   - Navigate to the EC2 service.
-   - Launch a new EC2 instance, selecting the appropriate instance type and configuration.
+This repository contains the backend microservice for the Cab Management Project, which provides functionality for managing drivers, cabs, and their associations.
 
-2. Install MySQL on the EC2 instance:
-   - Connect to the EC2 instance using SSH.
-   - Install MySQL on the EC2 instance following the appropriate installation instructions for your operating system.
 
-3. Set up the database:
-   - Configure the MySQL database, including setting up the necessary credentials, creating a new database, and granting the required privileges.
+## Prerequisites
+Before proceeding with the installation and deployment, ensure that you have the following:
 
-4. Develop the backend API using Java and Spring Boot:
-   - Set up a Java development environment on the EC2 instance.
-   - Create a new Spring Boot project or clone an existing project to the EC2 instance.
-   - Configure the application properties to establish a connection to the MySQL database.
+1)An AWS account with EC2 instance access.
 
-5. Containerize the backend application:
-   - Create a Dockerfile in the root directory of your project, specifying the necessary dependencies and build steps.
-   - Build a Docker image of your backend application using the Dockerfile.
-   - Push the Docker image to a container registry, such as Docker Hub or Amazon ECR.
+2)Inbound rule allowing HTTP traffic (port 8080) to your EC2 instance.
 
-6. Set up environment variables and configuration:
-   - Define environment variables or configuration files to store sensitive information like database credentials.
-   - Ensure that the environment variables or configuration files are properly loaded by the application.
+3)Docker installed on your EC2 instance.
 
-7. Deploy the Docker container on the EC2 instance:
-   - Pull the Docker image onto the EC2 instance from the container registry.
-   - Run the Docker container, mapping the required ports and providing the necessary environment variables or configuration files.
-   - Ensure that the Docker container can connect to the MySQL database on the EC2 instance.
+## Installation and Deployment
+## Option 1: Deploying without Docker Compose
 
-8. Implement API endpoints for the frontend:
-   - Design and implement the required API endpoints for the frontend to interact with the backend.
-   - Use Spring Boot annotations to define RESTful endpoints and handle data retrieval, creation, updating, and deletion.
+**1.Clone the Repository:**   
+Clone this repository to your local machine .
 
-9. Test and debug:
-   - Perform thorough testing of the backend API to ensure all functionalities work as expected.
-   - Debug any issues or errors encountered during testing and make necessary fixes.
+**2.Update the `application.properties` File:**  
+Open the application.properties file located in the Spring Boot project and update the database URL to:
 
-10. Monitor and maintain:
-    - Implement logging and monitoring mechanisms to track the performance and behavior of the backend application.
-    - Regularly monitor the application's health and address any issues that arise.
-    - Keep the backend application up to date with security patches and updates.
+```
+spring.datasource.url=jdbc:mysql://mysqldb:3306/cabmanagement?useSSL=false&allowPublicKeyRetrieval=true
+```
+**3.Build the Spring Boot Application` .jar` file:**  
+Use GUI or command to build spring boot application that will give you `cabmanagement-0.0.1-SNAPSHOT.jar` file in target folder.
 
-These steps provide a revised outline for creating the backend of your cab management application using AWS EC2, MySQL, Docker, and Spring Boot. Please make adjustments based on your specific project requirements and preferences.
+**4.Transfer the `.jar` File to EC2 instance :**  
+Use the `scp` command to transfer the generated `.jar` file to your EC2 instance. Replace `<path-to-your-keypair>` with the path to your key pair file and `<ec2-instance-public-ip-or-dns>` with the public IP or DNS of your EC2 instance.
+```
+scp -i <path-to-your-keypair>.pem target/cabmanagement-0.0.1-SNAPSHOT.jar ubuntu@<ec2-instance-public-ip-or-dns>
 
-Let me know if you have any further query or need additional assistance.
+```
+**5.Pull the `mysql:8` and `openjdk:20` Image in EC2 :**  
+Pull the `mysql:8` and   `openjdk:20`Docker image from Docker Hub:
+
+```
+docker pull mysql:8
+```
+```
+docker pull openjdk:20
+```
+**6.Create a Docker Network:**  
+Create a Docker network to enable communication between the Spring Boot app and the MySQL container.
+
+```
+docker network create springbootapi
+```
+
+
+**7.Run the MySQL Container:**  
+ Run the MySQL container within the created network.
+
+```
+docker run -d --name mysqldb --network springbootapi -e MYSQL_ROOT_PASSWORD=rootboot mysql:8
+```
+
+
+**9.Access the MySQL Container and Create the Database:**  
+Access the MySQL container and create the required database.
+
+```
+docker exec -it mysqldb mysql -u root -prootboot
+```
+
+Enter the MySQL root password when prompted.
+
+```
+CREATE DATABASE cabmanagement;
+```
+
+
+**10.Create a Dockerfile:**  
+Create a Dockerfile where your `cabmanagement-0.0.1-SNAPSHOT.jar`
+redises  and write following code in it:
+
+
+```
+FROM openjdk:20
+
+COPY target/cabmanagement-0.0.1-SNAPSHOT.jar  cabmanagement.jar
+
+ENTRYPOINT["java","-jar","/cabmanagement.jar"]
+```
+
+**11.Build the Docker Image:**  
+Once Docker is installed, navigate to the directory where you transferred the `.jar` file and run the following command to build the Docker image:
+```
+docker build -t cabbackend .
+```
+
+
+
+**12.Run the Docker Container:**  
+After the Docker image is built, run the following command to start the Docker container:
+
+```
+docker run -d -p 8080:8080 --network springbootapi --name cabmanagement cabmanagementbackend
+```
+
+
+
+## Option 2: Deploying with Docker Compos
+### Follow these steps to set up and deploy the backend microservice on AWS EC2 using Docker Compose:
+
+**1.Clone the Repository:**  
+Clone this repository to your local machine or directly access it from your EC2 instance.
+
+**2.Transfer the Repository:**  
+Transfer the repository to your EC2 instance using the scp command or any other preferred method.
+
+**3.SSH into the EC2 Instance:**  
+Connect to your EC2 instance using SSH. Replace` <path-to-your-keypair>`with the path to your key pair file and `<ec2-instance-public-ip-or-dns>` with the public IP or DNS of your EC2 instance.
+
+```
+ssh -i <path-to-your-keypair>.pem ubuntu@<ec2-instance-public-ip-or-dns>
+```
+**4.Install Docker and Docker Compose:** Install Docker and Docker Compose on your EC2 instance by following the official installation instructions.
+
+**5.Navigate to the Repository:** Navigate to the repository directory on your EC2 instance.
+
+```
+cd cab-management-backend
+```
+**Update the Environment Variables:**  
+Update the environment variables in the `docker-compose.yml` file as per your requirements.
+
+**Run Docker Compose:**  
+Run the following command to start the Docker containers
+```
+docker-compose up -d
+```
+
+
+## Access the Backend Microservice
+ 
+### Open a web browser or any software like postman and enter the following URL to access the backend microservice:
+use endpoints cabapi and driverapi refer controller structure in springboot project for successful API communication.
+```
+http://<ec2-instance-public-ip-or-dns>:8080/cabapi
+http://<ec2-instance-public-ip-or-dns>:8080/driverapi
+```
+## Contact
+If you have any questions or suggestions, please feel free to reach out to us.

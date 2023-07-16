@@ -11,13 +11,16 @@ public class CorsConfig {
 
     @Bean
     public CorsFilter corsFilter() {
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000"); // Update with your frontend origin
+        configuration.addAllowedOrigin("https://stable-frontend--velvety-sherbet-1939bf.netlify.app");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/proxy", configuration);
 
         return new CorsFilter(source);
     }
