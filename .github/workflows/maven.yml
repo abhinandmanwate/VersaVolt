@@ -44,6 +44,6 @@ jobs:
 
     steps:
       - name: Run Tests with Maven
-        working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
+        working-directory: VersaVolt/server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
         run: mvn test
   
