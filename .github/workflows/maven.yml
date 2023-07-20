@@ -10,12 +10,12 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "demo" ]
     paths:
       - 'server/cabmanagement/**'
       
   pull_request:
-    branches: [ "main" ]
+    branches: [ "demo" ]
     paths:
       - 'server/cabmanagement/**'
 
@@ -44,6 +44,6 @@ jobs:
 
     steps:
       - name: Run Tests with Maven
-        working-directory: VersaVolt/server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
+        working-directory: /cabmanagement  # Navigate to the 'server/cabmanagement' directory
         run: mvn test
   
