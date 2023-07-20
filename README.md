@@ -1,4 +1,4 @@
-# NeuraVolt-AFourathon-3.0
+# VersaVolt-AFourathon-3.0
 
 ## Introduction
 
