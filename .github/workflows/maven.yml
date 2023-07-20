@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: CI/CD Pipeline
 
 on:
   push:
@@ -35,5 +35,15 @@ jobs:
     - name: Build with Maven
       working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
       run: mvn clean install
+      
+      
+  test:
+    needs: build
 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Tests with Maven
+        working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
+        run: mvn test
   
