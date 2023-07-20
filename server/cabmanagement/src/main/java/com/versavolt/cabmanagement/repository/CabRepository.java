@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CabRepository extends JpaRepository<Cab,String> {
 
-    //Extra essential custom methods
+    //Extra essential custom methods for service
     Cab findByCabRegistrationNumber(String cabRegistrationNumber);
     boolean existsByCabRegistrationNumber(String cabRegistrationNumber);
 
