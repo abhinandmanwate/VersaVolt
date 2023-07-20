@@ -3,11 +3,13 @@ import Ctable from "../cabInfo/Ctable";
 import Cmodal from "../cabInfo/Cmodal";
 import { Link } from "react-router-dom";
 import { getCabs, deleteCab, updateCab, createCab } from "../../Config/CabAPI"; // Import the API functions from api.js
+import SearchBar from "../SearchBar";
 
 function CabCRUD() {
   const [modalOpen, setModalOpen] = useState(false);
   const [rows, setRows] = useState([]);
   const [rowToEdit, setRowToEdit] = useState(null);
+  const [search, setSearch] = useState(""); // Rename searchTerm to search
 
   useEffect(() => {
     getCab();
@@ -69,10 +71,28 @@ function CabCRUD() {
     setRowToEdit(null);
   };
 
+  // Function to handle search
+  const handleSearch = (searchTerm) => {
+    setSearch(searchTerm);
+    console.log(searchTerm);
+  };
+
   return (
     <div className="DriverCRUD">
       <h1 className="heading">List of Cabs</h1>
-      <Ctable rows={rows} deleteRow={handleDeleteCab} editRow={handleEditRow} />
+      <SearchBar search={search} handleSearch={handleSearch} />
+      <Ctable
+        rows={rows.filter((row) => {
+          const searchLower = search.toLowerCase();
+          return (
+            row.cabRegistrationNumber.toLowerCase().includes(searchLower) ||
+            row.cabModel.toLowerCase().includes(searchLower) ||
+            row.cabColour.toLowerCase().includes(searchLower)
+          );
+        })}
+        deleteRow={handleDeleteCab}
+        editRow={handleEditRow}
+      />
       <div className="buttons">
         <button className="btn" id="Back">
           Back
