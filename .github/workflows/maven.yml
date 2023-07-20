@@ -33,7 +33,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-
+      working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
       run: mvn clean install
       
       
@@ -44,6 +44,5 @@ jobs:
 
     steps:
       - name: Run Tests with Maven
-      y
         run: mvn test
   
