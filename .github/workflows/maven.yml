@@ -12,12 +12,12 @@ on:
   push:
     branches: [ "demo" ]
     paths:
-      - 'server/cabmanagement/**'
+      - 'VersaVolt/server/cabmanagement/**'
       
   pull_request:
     branches: [ "demo" ]
     paths:
-      - 'server/cabmanagement/**'
+      - 'VersaVolt/server/cabmanagement/**'
 
 jobs:
   build:
