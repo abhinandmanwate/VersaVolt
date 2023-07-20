@@ -26,8 +26,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-          path: 'server/cabmanagement/'
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -35,7 +33,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
+
       run: mvn clean install
       
       
@@ -46,6 +44,6 @@ jobs:
 
     steps:
       - name: Run Tests with Maven
-        working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
+      y
         run: mvn test
   
