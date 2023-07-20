@@ -43,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run Tests with Maven
+      - name: Run Tests with Mave
+        working-directory: server/cabmanagement
         run: mvn test
   
