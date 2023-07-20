@@ -1,5 +1,6 @@
 import React from "react";
-import TextField from "@mui/material/TextField"; // Import the TextField component from Material-UI
+import TextField from "@mui/material/TextField"; 
+import '../css/SearchBar.css'
 
 const SearchBar = ({ search, handleSearch }) => {
   return (
@@ -12,6 +13,7 @@ const SearchBar = ({ search, handleSearch }) => {
         value={search}
         onChange={(e) => handleSearch(e.target.value)}
         style={{ marginBottom: "16px" }}
+        className="search-bar"
       />
     </div>
   );
