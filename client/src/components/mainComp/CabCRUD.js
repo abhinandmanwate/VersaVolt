@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Ctable from "../cabInfo/Ctable";
 import Cmodal from "../cabInfo/Cmodal";
-import Config from "../../Config/Config";
 import { Link } from "react-router-dom";
+import { getCabs, deleteCab, updateCab, createCab } from "../../Config/CabAPI"; // Import the API functions from api.js
 
 function CabCRUD() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -11,34 +10,27 @@ function CabCRUD() {
   const [rowToEdit, setRowToEdit] = useState(null);
 
   useEffect(() => {
-    getCabs();
+    getCab();
   }, []);
 
-  // Fetch cab data from the API
-  const getCabs = async () => {
+  // Fetch Cab data from the API
+  const getCab = async () => {
     try {
-      const response = await axios.get(
-        `${Config.apiRequest}://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}`
-      );
-      console.log(response.data);
-      setRows(response.data);
+      const cabsData = await getCabs();
+      setRows(cabsData);
     } catch (error) {
       console.error(error);
     }
   };
 
   // Delete a cab
-  const deleteCab = async (deleteCabRegistrationNumber) => {
-    console.log("Entered delete " + deleteCabRegistrationNumber);
+  const handleDeleteCab = async (deleteCabIdNumber) => {
     try {
-      const response = await axios.delete(
-        `${Config.apiRequest}://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}/${deleteCabRegistrationNumber}`
-      );
-      console.log(response.data);
+      await deleteCab(deleteCabIdNumber);
       // Perform any additional actions or update UI as needed
 
-      // Refresh cab data
-      getCabs();
+      // Fetch Cab data again after deletion
+      getCab();
     } catch (error) {
       console.error(error);
     }
@@ -53,21 +45,34 @@ function CabCRUD() {
   };
 
   // Handle form submission
-  const handleSubmit = (newRow) => {
-    rowToEdit === null
-      ? setRows([...rows, newRow])
-      : setRows(
-          rows.map((currRow, idx) => {
-            if (idx !== rowToEdit) return currRow;
-            return newRow;
-          })
-        );
+  const handleSubmit = async (newRow) => {
+    try {
+      if (rowToEdit === null) {
+        // If rowToEdit is null, it's a new Cab, call createCab API
+        await createCab(newRow);
+      } else {
+        // Otherwise, it's an existing Cab, call updateCab API
+        await updateCab(rows[rowToEdit].cabRegistrationNumber, newRow);
+      }
+      // Close the modal after successful form submission
+      closeModal();
+      // Fetch Cab data again after update/create
+      getCab();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Close the modal
+  const closeModal = () => {
+    setModalOpen(false);
+    setRowToEdit(null);
   };
 
   return (
     <div className="DriverCRUD">
       <h1 className="heading">List of Cabs</h1>
-      <Ctable rows={rows} deleteRow={deleteCab} editRow={handleEditRow} />
+      <Ctable rows={rows} deleteRow={handleDeleteCab} editRow={handleEditRow} />
       <div className="buttons">
         <button className="btn" id="Back">
           Back
@@ -83,11 +88,7 @@ function CabCRUD() {
       </div>
       {modalOpen && (
         <Cmodal
-          closeModal={() => {
-            setModalOpen(false);
-            setRowToEdit(null);
-            getCabs();
-          }}
+          closeModal={closeModal}
           onSubmit={handleSubmit}
           defaultValue={rowToEdit !== null && rows[rowToEdit]}
         />
