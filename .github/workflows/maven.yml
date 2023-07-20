@@ -10,11 +10,11 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "demo" ]
     paths:
       - 'server/cabmanagement/**'
   pull_request:
-    branches: [ "main" ]
+    branches: [ "demo" ]
     paths:
       - 'server/cabmanagement/**'
 
@@ -33,3 +33,11 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install
+    
+    - name: List files
+      run: ls -a
+
+    - name: what is in target file
+      run: |
+          cd target
+          ls -a
