@@ -3,8 +3,6 @@ import MCabAssign from "../cabDiver/MCabAssign";
 import MCabModal from "../cabDiver/MCabmodal";
 import MCabTable from "../cabDiver/MCabtable";
 import axios from "axios";
-import { getCabs, deleteCab } from "../../Config/CabAPI"; // Import getCabs from CabAPI.js
-import { getDrivers } from "../../Config/DriverAPI"; // Import getDrivers from DriverAPI.js
 import "../../css/ManageCab.css";
 import Config from "../../Config/Config";
 
@@ -16,8 +14,8 @@ const ManageCab = () => {
   const [assignedDrivers, setAssignedDrivers] = useState({});
 
   useEffect(() => {
-    getCabsFromAPI();
-    getDriversFromAPI();
+    getCabs();
+    getDrivers();
   }, []);
 
   useEffect(() => {
@@ -25,22 +23,26 @@ const ManageCab = () => {
   }, [rows]);
 
   // Fetch cabs from the API
-  const getCabsFromAPI = async () => {
+  const getCabs = async () => {
     try {
-      const response = await getCabs();
-      console.log(response);
-      setRows(response);
+      const response = await axios.get(
+        `${Config.apiRequest}://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}`
+      );
+      console.log(response.data);
+      setRows(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   // Fetch drivers from the API
-  const getDriversFromAPI = async () => {
+  const getDrivers = async () => {
     try {
-      const response = await getDrivers();
-      console.log(response);
-      setDrivers(response);
+      const response = await axios.get(
+        `${Config.apiRequest}://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}`
+      );
+      console.log(response.data);
+      setDrivers(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -82,49 +84,48 @@ const ManageCab = () => {
 
   // Handle cab update
   const handleCabUpdate = () => {
-    getCabsFromAPI();
+    getCabs();
   };
 
-  const handleCabDelete = async () => {
-    try {
-      await deleteCab(selectedCab);
-      fetchAssignedDrivers();
-      getCabsFromAPI();
-    } catch (error) {
-      console.error(error);
-    }
+  // Handle cab delete
+  const handleCabDelete = () => {
+    fetchAssignedDrivers();
+    getCabs();
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="heading">Manage Cabs</h1>
-      </div>
-      <div className="gridMCab">
-        <MCabAssign
-          drivers={drivers}
-          onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-          getAssignedDriver={getAssignedDriver}
-        />
+    <div className="ManageCab">
+      <div className="form">
+        <div>
+          <h1 className="heading">Manage Cabs</h1>
+        </div>
+        <div className="gridMCab">
+          <MCabAssign
+            drivers={drivers}
+            onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
+            getAssignedDriver={getAssignedDriver}
+          />
 
-        <MCabTable
-          rows={rows}
-          onEditClick={handleEditClick}
-          getAssignedDriver={getAssignedDriver}
-          onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-        />
-      </div>
-      {modalOpen && (
-        <MCabModal
-          cabRegistrationNumber={selectedCab}
-          drivers={drivers}
-          onClose={() => setModalOpen(false)}
-          onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-          onDeleteCab={handleCabDelete} // Pass the handleCabDelete function
-        />
-      )}
-      <div className="back">
-        <button className="btn">Back</button>
+          <MCabTable
+            rows={rows}
+            onEditClick={handleEditClick}
+            getAssignedDriver={getAssignedDriver}
+            onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
+          />
+        </div>
+        {modalOpen && (
+          <MCabModal
+            cabRegistrationNumber={selectedCab}
+            drivers={drivers}
+            onClose={() => setModalOpen(false)}
+            onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
+            onDeleteCab={handleCabDelete} // Pass the handleCabDelete function
+          />
+        )}
+        <div className="back">
+          <button className="btn">Back</button>
+        </div>
+
       </div>
     </div>
   );

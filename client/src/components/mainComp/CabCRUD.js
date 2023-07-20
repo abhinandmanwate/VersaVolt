@@ -79,40 +79,43 @@ function CabCRUD() {
 
   return (
     <div className="DriverCRUD">
-      <h1 className="heading">List of Cabs</h1>
-      <SearchBar search={search} handleSearch={handleSearch} />
-      <Ctable
-        rows={rows.filter((row) => {
-          const searchLower = search.toLowerCase();
-          return (
-            row.cabRegistrationNumber.toLowerCase().includes(searchLower) ||
-            row.cabModel.toLowerCase().includes(searchLower) ||
-            row.cabColour.toLowerCase().includes(searchLower)
-          );
-        })}
-        deleteRow={handleDeleteCab}
-        editRow={handleEditRow}
-      />
-      <div className="buttons">
-        <button className="btn" id="Back">
-          Back
-        </button>
-
-        <button className="btn" onClick={() => setModalOpen(true)}>
-          Add Cab
-        </button>
-
-        <Link to="/assign-driver" className="btn" id="Assign">
-          Assign
-        </Link>
-      </div>
-      {modalOpen && (
-        <Cmodal
-          closeModal={closeModal}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null && rows[rowToEdit]}
+      <div className="form">
+        <h1 className="heading">List of Cabs</h1>
+        <SearchBar search={search} handleSearch={handleSearch} />
+        <Ctable
+          rows={rows.filter((row) => {
+            const searchLower = search.toLowerCase();
+            return (
+              row.cabRegistrationNumber.toLowerCase().includes(searchLower) ||
+              row.cabModel.toLowerCase().includes(searchLower) ||
+              row.cabColour.toLowerCase().includes(searchLower)
+            );
+          })}
+          deleteRow={handleDeleteCab}
+          editRow={handleEditRow}
         />
-      )}
+        <div className="buttons">
+          <button className="btn" id="Back">
+            Back
+          </button>
+
+          <button className="btn" onClick={() => setModalOpen(true)}>
+            Add Cab
+          </button>
+
+          <Link to="/assign-driver" className="btn" id="Assign">
+            Assign
+          </Link>
+        </div>
+        {modalOpen && (
+          <Cmodal
+            closeModal={closeModal}
+            onSubmit={handleSubmit}
+            defaultValue={rowToEdit !== null && rows[rowToEdit]}
+          />
+        )}
+        
+      </div>
     </div>
   );
 }

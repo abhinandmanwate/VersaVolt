@@ -3,9 +3,8 @@ import MDriverAssign from "../driverCab/MDriverAssign";
 import MDriverModal from "../driverCab/MDriverModal";
 import MDriverTable from "../driverCab/MDriverTable";
 import axios from "axios";
-import { getDrivers, deleteDriver } from "../../Config/DriverAPI"; // Import getDrivers from DriverAPI.js
-import { getCabs } from "../../Config/CabAPI"; // Import getCabs from CabAPI.js
-import "../../css/ManageCab.css";
+// import "../../css/ManageCab.css";
+import "../../css/ManageCab.css"
 import Config from "../../Config/Config";
 
 const ManageDriver = () => {
@@ -16,8 +15,8 @@ const ManageDriver = () => {
   const [assignedCabs, setAssignedCabs] = useState({});
 
   useEffect(() => {
-    getDriversFromAPI();
-    getCabsFromAPI();
+    getDrivers();
+    getCabs();
   }, []);
 
   useEffect(() => {
@@ -25,22 +24,26 @@ const ManageDriver = () => {
   }, [rows]);
 
   // Fetch drivers from the API
-  const getDriversFromAPI = async () => {
+  const getDrivers = async () => {
     try {
-      const response = await getDrivers();
-      console.log(response);
-      setRows(response);
+      const response = await axios.get(
+        `${Config.apiRequest}://${Config.apiHost}:${Config.apiPort}/${Config.apiDriver}`
+      );
+      console.log(response.data);
+      setRows(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   // Fetch cabs from the API
-  const getCabsFromAPI = async () => {
+  const getCabs = async () => {
     try {
-      const response = await getCabs();
-      console.log(response);
-      setCabs(response);
+      const response = await axios.get(
+        `${Config.apiRequest}://${Config.apiHost}:${Config.apiPort}/${Config.apiCab}`
+      );
+      console.log(response.data);
+      setCabs(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -78,52 +81,50 @@ const ManageDriver = () => {
 
   // Handle driver update
   const handleDriverUpdate = () => {
-    getDriversFromAPI();
+    getDrivers();
   };
 
   // Handle driver delete
-  const handleDriverDelete = async () => {
-    try {
-      await deleteDriver(selectedDriver);
-      fetchAssignedCabs();
-      getDriversFromAPI();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleDriverDelete = () => {
+    fetchAssignedCabs();
+    getDrivers();
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="heading">Manage Drivers</h1>
-      </div>
-      <div className="gridMCab">
-        {cabs.length > 0 && (
-          <MDriverAssign
-            cabs={cabs}
+    <div className="ManageCab">
+      <div className="form">
+        
+        <div>
+          <h1 className="heading">Manage Drivers</h1>
+        </div>
+        <div className="gridMCab">
+          {cabs.length > 0 && (
+            <MDriverAssign
+              cabs={cabs}
+              onDriverUpdate={handleDriverUpdate}
+              getAssignedCab={getAssignedCab}
+            />
+          )}
+          <MDriverTable
+            rows={rows}
+            onEditClick={handleEditClick}
+            assignedCabs={assignedCabs}
             onDriverUpdate={handleDriverUpdate}
-            getAssignedCab={getAssignedCab}
+          />
+        </div>
+
+        {modalOpen && (
+          <MDriverModal
+            driverId={selectedDriver}
+            cabs={cabs}
+            onClose={() => setModalOpen(false)}
+            onDriverUpdate={handleDriverUpdate}
+            onDeleteDriver={handleDriverDelete}
           />
         )}
-        <MDriverTable
-          rows={rows}
-          onEditClick={handleEditClick}
-          assignedCabs={assignedCabs}
-          onDriverUpdate={handleDriverUpdate}
-        />
-      </div>
-
-      {modalOpen && (
-        <MDriverModal
-          driverId={selectedDriver}
-          cabs={cabs}
-          onClose={() => setModalOpen(false)}
-          onDriverUpdate={handleDriverUpdate}
-          onDeleteDriver={handleDriverDelete}
-        />
-      )}
-      <div className="back">
-        <button className="btn">Back</button>
+        <div className="back">
+          <button className="btn">Back</button>
+        </div>
       </div>
     </div>
   );
