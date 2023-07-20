@@ -26,6 +26,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+          path: 'VersaVolt/server/cabmanagement'
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -44,6 +46,6 @@ jobs:
 
     steps:
       - name: Run Tests with Maven
-        working-directory: /cabmanagement  # Navigate to the 'server/cabmanagement' directory
+        working-directory: server/cabmanagement  # Navigate to the 'server/cabmanagement' directory
         run: mvn test
   
