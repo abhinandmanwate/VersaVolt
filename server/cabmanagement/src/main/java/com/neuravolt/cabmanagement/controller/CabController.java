@@ -16,7 +16,7 @@ public class CabController {
         this.cabService = cabService;
     }
 
-    @PostMapping// create new cab in database
+    @PostMapping// create new cab in database.
     public String createCabDetails(@RequestBody Cab cab) {
         try {
             cabService.createCab(cab);
