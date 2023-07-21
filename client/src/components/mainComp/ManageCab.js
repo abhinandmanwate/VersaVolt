@@ -3,8 +3,10 @@ import MCabAssign from "../cabDiver/MCabAssign";
 import MCabModal from "../cabDiver/MCabmodal";
 import MCabTable from "../cabDiver/MCabtable";
 import axios from "axios";
+//update---
 import { getCabs, deleteCab } from "../../Config/CabAPI"; // Import getCabs from CabAPI.js
 import { getDrivers } from "../../Config/DriverAPI"; // Import getDrivers from DriverAPI.js
+// ---
 import "../../css/ManageCab.css";
 import Config from "../../Config/Config";
 
@@ -96,35 +98,38 @@ const ManageCab = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="heading">Manage Cabs</h1>
-      </div>
-      <div className="gridMCab">
-        <MCabAssign
-          drivers={drivers}
-          onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-          getAssignedDriver={getAssignedDriver}
-        />
+    <div className="ManageCab">
+      <div className="form">
+        <div>
+          <h1 className="heading">Manage Cabs</h1>
+        </div>
+        <div className="gridMCab">
+          <MCabAssign
+            drivers={drivers}
+            onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
+            getAssignedDriver={getAssignedDriver}
+          />
 
-        <MCabTable
-          rows={rows}
-          onEditClick={handleEditClick}
-          getAssignedDriver={getAssignedDriver}
-          onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-        />
-      </div>
-      {modalOpen && (
-        <MCabModal
-          cabRegistrationNumber={selectedCab}
-          drivers={drivers}
-          onClose={() => setModalOpen(false)}
-          onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
-          onDeleteCab={handleCabDelete} // Pass the handleCabDelete function
-        />
-      )}
-      <div className="back">
-        <button className="btn">Back</button>
+          <MCabTable
+            rows={rows}
+            onEditClick={handleEditClick}
+            getAssignedDriver={getAssignedDriver}
+            onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
+          />
+        </div>
+        {modalOpen && (
+          <MCabModal
+            cabRegistrationNumber={selectedCab}
+            drivers={drivers}
+            onClose={() => setModalOpen(false)}
+            onCabUpdate={handleCabUpdate} // Pass the handleCabUpdate function
+            onDeleteCab={handleCabDelete} // Pass the handleCabDelete function
+          />
+        )}
+        <div className="back">
+          <button className="btn">Back</button>
+        </div>
+
       </div>
     </div>
   );

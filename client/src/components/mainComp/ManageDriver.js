@@ -5,7 +5,8 @@ import MDriverTable from "../driverCab/MDriverTable";
 import axios from "axios";
 import { getDrivers, deleteDriver } from "../../Config/DriverAPI"; // Import getDrivers from DriverAPI.js
 import { getCabs } from "../../Config/CabAPI"; // Import getCabs from CabAPI.js
-import "../../css/ManageCab.css";
+// import "../../css/ManageCab.css";
+import "../../css/ManageCab.css"
 import Config from "../../Config/Config";
 
 const ManageDriver = () => {
@@ -93,37 +94,40 @@ const ManageDriver = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h1 className="heading">Manage Drivers</h1>
-      </div>
-      <div className="gridMCab">
-        {cabs.length > 0 && (
-          <MDriverAssign
-            cabs={cabs}
+    <div className="ManageCab">
+      <div className="form">
+        
+        <div>
+          <h1 className="heading">Manage Drivers</h1>
+        </div>
+        <div className="gridMCab">
+          {cabs.length > 0 && (
+            <MDriverAssign
+              cabs={cabs}
+              onDriverUpdate={handleDriverUpdate}
+              getAssignedCab={getAssignedCab}
+            />
+          )}
+          <MDriverTable
+            rows={rows}
+            onEditClick={handleEditClick}
+            assignedCabs={assignedCabs}
             onDriverUpdate={handleDriverUpdate}
-            getAssignedCab={getAssignedCab}
+          />
+        </div>
+
+        {modalOpen && (
+          <MDriverModal
+            driverId={selectedDriver}
+            cabs={cabs}
+            onClose={() => setModalOpen(false)}
+            onDriverUpdate={handleDriverUpdate}
+            onDeleteDriver={handleDriverDelete}
           />
         )}
-        <MDriverTable
-          rows={rows}
-          onEditClick={handleEditClick}
-          assignedCabs={assignedCabs}
-          onDriverUpdate={handleDriverUpdate}
-        />
-      </div>
-
-      {modalOpen && (
-        <MDriverModal
-          driverId={selectedDriver}
-          cabs={cabs}
-          onClose={() => setModalOpen(false)}
-          onDriverUpdate={handleDriverUpdate}
-          onDeleteDriver={handleDriverDelete}
-        />
-      )}
-      <div className="back">
-        <button className="btn">Back</button>
+        <div className="back">
+          <button className="btn">Back</button>
+        </div>
       </div>
     </div>
   );

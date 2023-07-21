@@ -86,42 +86,44 @@ function DriverCRUD() {
 
   return (
     <div className="DriverCRUD">
-      <h1 className="heading">List of Drivers</h1>
-      {/* Using the SearchBar component */}
-      <SearchBar search={search} handleSearch={handleSearch} />
-      <Dtable
-        rows={rows.filter((row) => {
-          const searchLower = search.toLowerCase();
-          return (
-            row.driverName.toLowerCase().includes(searchLower) ||
-            row.driverIdNumber.toLowerCase().includes(searchLower) ||
-            row.driverEmail.toLowerCase().includes(searchLower) ||
-            row.driverPhoneNumber.toLowerCase().includes(searchLower)
-          );
-        })}
-        deleteRow={handleDeleteDriver}
-        editRow={handleEditRow}
-      />
-      <div className="buttons">
-        <button className="btn" id="Back">
-          Back
-        </button>
-
-        <button className="btn" onClick={() => setModalOpen(true)}>
-          Add Driver
-        </button>
-
-        <Link to="/assign-cab" className="btn" id="Assign">
-          Assign
-        </Link>
-      </div>
-      {modalOpen && (
-        <Dmodal
-          closeModal={closeModal}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null && rows[rowToEdit]}
+      <div className="form">
+        <h1 className="heading">List of Drivers</h1>
+        {/* Using the SearchBar component */}
+        <SearchBar search={search} handleSearch={handleSearch} />
+        <Dtable
+          rows={rows.filter((row) => {
+            const searchLower = search.toLowerCase();
+            return (
+              row.driverName.toLowerCase().includes(searchLower) ||
+              row.driverIdNumber.toLowerCase().includes(searchLower) ||
+              row.driverEmail.toLowerCase().includes(searchLower) ||
+              row.driverPhoneNumber.toLowerCase().includes(searchLower)
+            );
+          })}
+          deleteRow={handleDeleteDriver}
+          editRow={handleEditRow}
         />
-      )}
+        <div className="buttons">
+          <button className="btn" id="Back">
+            Back
+          </button>
+
+          <button className="btn" onClick={() => setModalOpen(true)}>
+            Add Driver
+          </button>
+
+          <Link to="/assign-cab" className="btn" id="Assign">
+            Assign
+          </Link>
+        </div>
+        {modalOpen && (
+          <Dmodal
+            closeModal={closeModal}
+            onSubmit={handleSubmit}
+            defaultValue={rowToEdit !== null && rows[rowToEdit]}
+          />
+        )}
+      </div>
     </div>
   );
 }
