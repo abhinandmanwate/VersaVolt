@@ -6,13 +6,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Build Test Push
 
 on:
   push:
-    branches: [ "PrasannaBH-patch-3" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "PrasannaBH-patch-3" ]
+    branches: [ "main" ]
 
 
 jobs:
@@ -31,7 +31,6 @@ jobs:
     - name: Build with Maven
       run: |
         cd ./server/cabmanagement
-        ls -al
         mvn clean install
         
     - name: Upload JAR artifact
@@ -39,9 +38,6 @@ jobs:
       with:
         name: cabmanagement-0.0.1-SNAPSHOT
         path: ./server/cabmanagement/target/cabmanagement-0.0.1-SNAPSHOT.jar
-        
-    - name: Print Structure
-      run: tree ./server 
         
         
   test:
@@ -64,16 +60,9 @@ jobs:
           name: cabmanagement-0.0.1-SNAPSHOT
           path: ./server/cabmanagement/target/
 
-      - name: Log files in cabmanagement directory
-        run: ls -al ./server/cabmanagement/
-        
-      - name: Print Structure
-        run: tree ./server 
-
       - name: Run Tests with Maven
         run: |
           cd ./server/cabmanagement  # Change to the cabmanagement directory, where pom.xml exists
-          ls -al
           mvn test
     
     
@@ -97,9 +86,6 @@ jobs:
         with:
           name: cabmanagement-0.0.1-SNAPSHOT
           path: ./server/cabmanagement/target/
-      
-      - name: Print Structure
-        run: tree ./server 
         
         
       - name: Build Docker image and push to Docker Hub
