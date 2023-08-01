@@ -1,10 +1,18 @@
-name: Build Test Push
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "PrasannaBH-patch-3" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "PrasannaBH-patch-3" ]
 
 
 jobs:
@@ -23,6 +31,7 @@ jobs:
     - name: Build with Maven
       run: |
         cd ./server/cabmanagement
+        ls -al
         mvn clean install
         
     - name: Upload JAR artifact
@@ -30,6 +39,9 @@ jobs:
       with:
         name: cabmanagement-0.0.1-SNAPSHOT
         path: ./server/cabmanagement/target/cabmanagement-0.0.1-SNAPSHOT.jar
+        
+    - name: Print Structure
+      run: tree ./server 
         
         
   test:
@@ -50,11 +62,18 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cabmanagement-0.0.1-SNAPSHOT
-          path: ./server/cabmanagement/target/ 
+          path: ./server/cabmanagement/target/
+
+      - name: Log files in cabmanagement directory
+        run: ls -al ./server/cabmanagement/
+        
+      - name: Print Structure
+        run: tree ./server 
 
       - name: Run Tests with Maven
         run: |
           cd ./server/cabmanagement  # Change to the cabmanagement directory, where pom.xml exists
+          ls -al
           mvn test
     
     
@@ -78,6 +97,9 @@ jobs:
         with:
           name: cabmanagement-0.0.1-SNAPSHOT
           path: ./server/cabmanagement/target/
+      
+      - name: Print Structure
+        run: tree ./server 
         
         
       - name: Build Docker image and push to Docker Hub
@@ -89,4 +111,4 @@ jobs:
           directory: ./server/cabmanagement
           dockerfile: ./server/cabmanagement/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }} 
+          password: ${{ secrets.DOCKER_PASSWORD }}
