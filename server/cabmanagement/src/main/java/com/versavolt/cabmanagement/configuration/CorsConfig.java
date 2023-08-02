@@ -1,4 +1,5 @@
 package com.versavolt.cabmanagement.configuration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -15,7 +16,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000"); // Update with your frontend origin
-        configuration.addAllowedOrigin("https://stable-frontend--velvety-sherbet-1939bf.netlify.app");
+        configuration.addAllowedOrigin("https://stable-frontend--incredible-salamander-51e48a.netlify.app/");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
 
