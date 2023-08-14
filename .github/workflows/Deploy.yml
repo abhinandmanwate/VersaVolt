@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main"]
   schedule:
-    - cron: "25 13 * * *" # Daily at 3:00 PM UTC
+    - cron: "25 13 * * 1" # Daily at 3:00 PM UTC
 
 jobs:
   docker-login:
